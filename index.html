@@ -118,6 +118,81 @@
             max-width: 100%;
         }
 
+        #passwordGate {
+            position: fixed;
+            inset: 0;
+            z-index: 999999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: radial-gradient( circle at top, #1d2030 0, #0f1117 55% );
+        }
+
+        .password-box {
+            width: min(100%, 390px);
+            padding: 32px;
+            border-radius: 22px;
+            border: 1px solid #2c3140;
+            background: #171a22;
+            box-shadow: 0 30px 100px rgba(0, 0, 0, 0.55);
+            text-align: center;
+        }
+
+        .password-icon {
+            font-size: 48px;
+            margin-bottom: 14px;
+        }
+
+        .password-box h2 {
+            margin: 0 0 8px;
+            color: #f5f7fb;
+            font-size: 26px;
+        }
+
+        .password-box p {
+            margin: 0 0 22px;
+            color: #9299aa;
+            font-size: 14px;
+        }
+
+        #sitePassword {
+            width: 100%;
+            min-height: 50px;
+            padding: 0 14px;
+            margin-bottom: 12px;
+            border-radius: 12px;
+            border: 1px solid #2c3140;
+            background: #1f2330;
+            color: white;
+            outline: none;
+        }
+
+            #sitePassword:focus {
+                border-color: #7c6cff;
+            }
+
+        #passwordSubmit {
+            width: 100%;
+            min-height: 50px;
+            border: 0;
+            border-radius: 12px;
+            background: #7c6cff;
+            color: white;
+            font-weight: 700;
+        }
+
+            #passwordSubmit:hover {
+                background: #9185ff;
+            }
+
+        #passwordError {
+            min-height: 20px;
+            margin-top: 12px;
+            color: #ff647c;
+            font-size: 13px;
+        }
+
         .app {
             width: min(1050px, calc(100% - 32px));
             margin: 0 auto;
@@ -342,7 +417,6 @@
             backface-visibility: hidden;
             -webkit-backface-visibility: hidden;
             overflow: hidden;
-            transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
         }
 
         .card-back {
@@ -888,7 +962,7 @@
             }
 
             .card-text {
-                font-size: clamp( 26px, 8vw, 38px );
+                font-size: clamp(26px, 8vw, 38px);
             }
 
             .manager {
@@ -970,7 +1044,7 @@
             }
 
             .card-text {
-                font-size: clamp( 24px, 9vw, 34px );
+                font-size: clamp(24px, 9vw, 34px);
             }
 
             .card-hint {
@@ -999,26 +1073,14 @@
                     font-size: 14px;
                 }
 
-            .progress-row {
-                font-size: 12px;
-            }
-
-            .stats {
-                gap: 15px;
-                margin-top: 18px;
-            }
-
             .completion-card {
                 padding: 24px 15px;
                 border-radius: 18px;
             }
 
-            .completion-actions {
+            .completion-actions,
+            .purchase-actions {
                 grid-template-columns: 1fr;
-            }
-
-            .completion-stats {
-                gap: 8px;
             }
 
             .panel {
@@ -1026,32 +1088,12 @@
                 border-radius: 14px;
             }
 
-            .dialog-content {
-                padding: 16px;
-            }
-
-            .dialog-actions {
-                flex-direction: column-reverse;
-            }
-
-                .dialog-actions .button {
-                    width: 100%;
-                }
-
-            .footer-tools .button {
-                flex: 1;
-            }
-
             .purchase-dialog {
                 padding: 24px 16px;
             }
 
-            .purchase-actions {
-                grid-template-columns: 1fr;
-            }
-
-            .purchase-price {
-                font-size: 28px;
+            .password-box {
+                padding: 26px 18px;
             }
         }
     </style>
@@ -1059,7 +1101,41 @@
 
 <body>
 
-    <div class="app">
+    <div id="passwordGate">
+
+        <div class="password-box">
+
+            <div class="password-icon">
+                🔒
+            </div>
+
+            <h2>
+                Dostęp do Fiszek
+            </h2>
+
+            <p>
+                Podaj hasło, aby otworzyć stronę.
+            </p>
+
+            <input type="password"
+                   id="sitePassword"
+                   placeholder="Hasło"
+                   autocomplete="off">
+
+            <button id="passwordSubmit"
+                    type="button">
+                Wejdź
+            </button>
+
+            <div id="passwordError"></div>
+
+        </div>
+
+    </div>
+
+    <div class="app"
+         id="mainApp"
+         style="display:none;">
 
         <header class="topbar">
 
@@ -1187,17 +1263,13 @@
 
                                     <button class="speech-button"
                                             id="speakBtn"
-                                            type="button"
-                                            title="Odtwórz wymowę"
-                                            aria-label="Odtwórz wymowę">
+                                            type="button">
                                         🔊
                                     </button>
 
                                     <button class="speech-button"
                                             id="speakSlowBtn"
-                                            type="button"
-                                            title="Odtwórz wolniej"
-                                            aria-label="Odtwórz wolniej">
+                                            type="button">
                                         🐢
                                     </button>
 
@@ -1250,16 +1322,12 @@
 
                         <span>
                             Znam:
-                            <strong id="knownCount">
-                                0
-                            </strong>
+                            <strong id="knownCount">0</strong>
                         </span>
 
                         <span>
                             Do powtórki:
-                            <strong id="repeatCount">
-                                0
-                            </strong>
+                            <strong id="repeatCount">0</strong>
                         </span>
 
                     </div>
@@ -1351,9 +1419,7 @@
 
                 <div class="panel">
 
-                    <h3>
-                        Pakiety
-                    </h3>
+                    <h3>Pakiety</h3>
 
                     <div class="deck-list"
                          id="deckList"></div>
@@ -1568,6 +1634,9 @@ reliable | niezawodny"></textarea>
     </dialog>
 
     <script>
+        const PASSWORD_HASH =
+            "e2c5a6b2226ef41e61616dc744f8d69f5ae7f0cd838e864ae9f7942209163ee0";
+
         const STORAGE_KEY =
             "flashcards-app-v2";
 
@@ -1579,6 +1648,151 @@ reliable | niezawodny"></textarea>
 
         const PINK_UNLOCKED_KEY =
             "flashcards-pink-unlocked-v1";
+
+        const passwordGate =
+            document.getElementById(
+                "passwordGate"
+            );
+
+        const mainApp =
+            document.getElementById(
+                "mainApp"
+            );
+
+        const sitePassword =
+            document.getElementById(
+                "sitePassword"
+            );
+
+        const passwordSubmit =
+            document.getElementById(
+                "passwordSubmit"
+            );
+
+        const passwordError =
+            document.getElementById(
+                "passwordError"
+            );
+
+        async function sha256(text) {
+            const data =
+                new TextEncoder()
+                    .encode(text);
+
+            const hashBuffer =
+                await crypto.subtle.digest(
+                    "SHA-256",
+                    data
+                );
+
+            const hashArray =
+                Array.from(
+                    new Uint8Array(
+                        hashBuffer
+                    )
+                );
+
+            return hashArray
+                .map(
+                    byte =>
+                        byte
+                            .toString(16)
+                            .padStart(2, "0")
+                )
+                .join("");
+        }
+
+        async function checkPassword() {
+            const password =
+                sitePassword.value;
+
+            if (!password) {
+                passwordError.textContent =
+                    "Wpisz hasło.";
+
+                return;
+            }
+
+            try {
+                const hash =
+                    await sha256(
+                        password
+                    );
+
+                if (
+                    hash ===
+                    PASSWORD_HASH
+                ) {
+                    sessionStorage.setItem(
+                        "flashcards-auth",
+                        "ok"
+                    );
+
+                    passwordGate.style.display =
+                        "none";
+
+                    mainApp.style.display =
+                        "";
+
+                    passwordError.textContent =
+                        "";
+
+                    sitePassword.value =
+                        "";
+
+                    return;
+                }
+
+                passwordError.textContent =
+                    "Nieprawidłowe hasło.";
+
+                sitePassword.value =
+                    "";
+
+                sitePassword.focus();
+
+            } catch (error) {
+                passwordError.textContent =
+                    "Ta przeglądarka nie obsługuje sprawdzania hasła w tym trybie.";
+
+                console.error(
+                    error
+                );
+            }
+        }
+
+        passwordSubmit.addEventListener(
+            "click",
+            checkPassword
+        );
+
+        sitePassword.addEventListener(
+            "keydown",
+            event => {
+                if (
+                    event.key === "Enter"
+                ) {
+                    checkPassword();
+                }
+            }
+        );
+
+        if (
+            sessionStorage.getItem(
+                "flashcards-auth"
+            ) === "ok"
+        ) {
+            passwordGate.style.display =
+                "none";
+
+            mainApp.style.display =
+                "";
+        } else {
+            requestAnimationFrame(
+                () =>
+                    sitePassword.focus()
+            );
+        }
 
         const defaultDeck = {
             id: "business-english-1",
@@ -1636,13 +1850,9 @@ reliable | niezawodny"></textarea>
             loadState();
 
         let currentIndex = 0;
-
         let currentOrder = [];
-
         let flipped = false;
-
         let sessionCompleted = false;
-
         let roundNumber = 1;
 
         let knownCards =
@@ -1657,119 +1867,73 @@ reliable | niezawodny"></textarea>
         let speechVoices = [];
 
         const deckSelect =
-            document.getElementById(
-                "deckSelect"
-            );
+            document.getElementById("deckSelect");
 
         const flashcard =
-            document.getElementById(
-                "flashcard"
-            );
+            document.getElementById("flashcard");
 
         const frontText =
-            document.getElementById(
-                "frontText"
-            );
+            document.getElementById("frontText");
 
         const backText =
-            document.getElementById(
-                "backText"
-            );
+            document.getElementById("backText");
 
         const progressText =
-            document.getElementById(
-                "progressText"
-            );
+            document.getElementById("progressText");
 
         const progressBar =
-            document.getElementById(
-                "progressBar"
-            );
+            document.getElementById("progressBar");
 
         const deckName =
-            document.getElementById(
-                "deckName"
-            );
+            document.getElementById("deckName");
 
         const knownCount =
-            document.getElementById(
-                "knownCount"
-            );
+            document.getElementById("knownCount");
 
         const repeatCount =
-            document.getElementById(
-                "repeatCount"
-            );
+            document.getElementById("repeatCount");
 
         const roundInfo =
-            document.getElementById(
-                "roundInfo"
-            );
+            document.getElementById("roundInfo");
 
         const accentSelect =
-            document.getElementById(
-                "accentSelect"
-            );
+            document.getElementById("accentSelect");
 
         const autoSpeak =
-            document.getElementById(
-                "autoSpeak"
-            );
+            document.getElementById("autoSpeak");
 
         const speakBtn =
-            document.getElementById(
-                "speakBtn"
-            );
+            document.getElementById("speakBtn");
 
         const speakSlowBtn =
-            document.getElementById(
-                "speakSlowBtn"
-            );
+            document.getElementById("speakSlowBtn");
 
         const deckList =
-            document.getElementById(
-                "deckList"
-            );
+            document.getElementById("deckList");
 
         const editDeckName =
-            document.getElementById(
-                "editDeckName"
-            );
+            document.getElementById("editDeckName");
 
         const cardsList =
-            document.getElementById(
-                "cardsList"
-            );
+            document.getElementById("cardsList");
 
         const editorCardCount =
-            document.getElementById(
-                "editorCardCount"
-            );
+            document.getElementById("editorCardCount");
 
         const newDeckDialog =
-            document.getElementById(
-                "newDeckDialog"
-            );
+            document.getElementById("newDeckDialog");
 
         const newDeckNameInput =
-            document.getElementById(
-                "newDeckName"
-            );
+            document.getElementById("newDeckName");
 
         const bulkCards =
-            document.getElementById(
-                "bulkCards"
-            );
+            document.getElementById("bulkCards");
 
         const importFile =
-            document.getElementById(
-                "importFile"
-            );
+            document.getElementById("importFile");
 
         const themeToggle =
-            document.getElementById(
-                "themeToggle"
-            );
+            document.getElementById("themeToggle");
 
         const themeColorMeta =
             document.querySelector(
@@ -1777,54 +1941,34 @@ reliable | niezawodny"></textarea>
             );
 
         const studySession =
-            document.getElementById(
-                "studySession"
-            );
+            document.getElementById("studySession");
 
         const completionView =
-            document.getElementById(
-                "completionView"
-            );
+            document.getElementById("completionView");
 
         const completedDeckName =
-            document.getElementById(
-                "completedDeckName"
-            );
+            document.getElementById("completedDeckName");
 
         const completedKnown =
-            document.getElementById(
-                "completedKnown"
-            );
+            document.getElementById("completedKnown");
 
         const completedRepeat =
-            document.getElementById(
-                "completedRepeat"
-            );
+            document.getElementById("completedRepeat");
 
         const repeatDeckBtn =
-            document.getElementById(
-                "repeatDeckBtn"
-            );
+            document.getElementById("repeatDeckBtn");
 
         const nextDeckBtn =
-            document.getElementById(
-                "nextDeckBtn"
-            );
+            document.getElementById("nextDeckBtn");
 
         const pinkPurchaseDialog =
-            document.getElementById(
-                "pinkPurchaseDialog"
-            );
+            document.getElementById("pinkPurchaseDialog");
 
         const confirmPinkPurchase =
-            document.getElementById(
-                "confirmPinkPurchase"
-            );
+            document.getElementById("confirmPinkPurchase");
 
         const cancelPinkPurchase =
-            document.getElementById(
-                "cancelPinkPurchase"
-            );
+            document.getElementById("cancelPinkPurchase");
 
         function loadState() {
             try {
@@ -1852,10 +1996,7 @@ reliable | niezawodny"></textarea>
             }
 
             return {
-                decks: [
-                    defaultDeck
-                ],
-
+                decks: [defaultDeck],
                 activeDeckId:
                     defaultDeck.id
             };
@@ -1997,9 +2138,7 @@ reliable | niezawodny"></textarea>
                     currentTheme === "pink"
                 ) {
                     applyTheme("dark");
-
                     saveTheme("dark");
-
                     return;
                 }
 
@@ -2007,9 +2146,7 @@ reliable | niezawodny"></textarea>
                     isPinkUnlocked()
                 ) {
                     applyTheme("pink");
-
                     saveTheme("pink");
-
                     return;
                 }
 
@@ -2144,9 +2281,7 @@ reliable | niezawodny"></textarea>
                 );
         }
 
-        function findEnglishVoice(
-            language
-        ) {
+        function findEnglishVoice(language) {
             if (
                 !speechVoices.length
             ) {
@@ -2155,20 +2290,14 @@ reliable | niezawodny"></textarea>
 
             const normalizedLanguage =
                 language
-                    .replace(
-                        "_",
-                        "-"
-                    )
+                    .replace("_", "-")
                     .toLowerCase();
 
             let matchingVoices =
                 speechVoices.filter(
                     voice =>
                         voice.lang
-                            .replace(
-                                "_",
-                                "-"
-                            )
+                            .replace("_", "-")
                             .toLowerCase() ===
                         normalizedLanguage
                 );
@@ -2181,9 +2310,7 @@ reliable | niezawodny"></textarea>
                         voice =>
                             voice.lang
                                 .toLowerCase()
-                                .startsWith(
-                                    "en"
-                                )
+                                .startsWith("en")
                     );
             }
 
@@ -2277,7 +2404,6 @@ reliable | niezawodny"></textarea>
                 language;
 
             utterance.volume = 1;
-
             utterance.pitch = 1;
 
             utterance.rate =
@@ -2493,13 +2619,10 @@ reliable | niezawodny"></textarea>
 
         function resetSession() {
             currentIndex = 0;
-
             flipped = false;
-
             roundNumber = 1;
 
             knownCards.clear();
-
             repeatCards.clear();
 
             const deck =
@@ -2537,7 +2660,6 @@ reliable | niezawodny"></textarea>
                 isDeckCompleted()
             ) {
                 showCompletion();
-
                 return;
             }
 
@@ -2563,9 +2685,7 @@ reliable | niezawodny"></textarea>
             }
 
             roundNumber += 1;
-
             currentIndex = 0;
-
             flipped = false;
 
             window
@@ -2803,7 +2923,6 @@ reliable | niezawodny"></textarea>
                 isDeckCompleted()
             ) {
                 showCompletion();
-
                 return;
             }
 
@@ -2812,12 +2931,10 @@ reliable | niezawodny"></textarea>
                 currentOrder.length - 1
             ) {
                 startNextRound();
-
                 return;
             }
 
             currentIndex += 1;
-
             flipped = false;
 
             renderStudy();
@@ -2894,9 +3011,7 @@ reliable | niezawodny"></textarea>
                 isDeckCompleted()
             ) {
                 renderStudy();
-
                 showCompletion();
-
                 return;
             }
 
@@ -2925,7 +3040,6 @@ reliable | niezawodny"></textarea>
                     nextDeck.id;
 
                 saveState();
-
                 resetSession();
             }
         );
@@ -2940,7 +3054,6 @@ reliable | niezawodny"></textarea>
                     deckSelect.value;
 
                 saveState();
-
                 resetSession();
             }
         );
@@ -3027,13 +3140,10 @@ reliable | niezawodny"></textarea>
                         );
 
                     currentIndex = 0;
-
                     flipped = false;
-
                     roundNumber = 1;
 
                     knownCards.clear();
-
                     repeatCards.clear();
 
                     window
@@ -3116,8 +3226,7 @@ reliable | niezawodny"></textarea>
                 }
 
                 if (
-                    event.code ===
-                    "Space"
+                    event.code === "Space"
                 ) {
                     event.preventDefault();
 
@@ -3228,7 +3337,6 @@ reliable | niezawodny"></textarea>
             }
 
             renderDeckList();
-
             renderDeckEditor();
         }
 
@@ -3414,9 +3522,6 @@ reliable | niezawodny"></textarea>
 
                     speakButton.textContent =
                         "🔊";
-
-                    speakButton.title =
-                        "Odtwórz wymowę";
 
                     speakButton.addEventListener(
                         "click",
@@ -4122,11 +4227,8 @@ reliable | niezawodny"></textarea>
             );
 
         loadTheme();
-
         loadTTSSettings();
-
         resetSession();
-
         renderManager();
     </script>
 
