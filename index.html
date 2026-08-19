@@ -1101,6 +1101,10 @@
 
 <body>
 
+    <audio id="finishSound"
+           src="Happy.mp3"
+           preload="auto"></audio>
+
     <div id="passwordGate">
 
         <div class="password-box">
@@ -1322,12 +1326,16 @@
 
                         <span>
                             Znam:
-                            <strong id="knownCount">0</strong>
+                            <strong id="knownCount">
+                                0
+                            </strong>
                         </span>
 
                         <span>
                             Do powtórki:
-                            <strong id="repeatCount">0</strong>
+                            <strong id="repeatCount">
+                                0
+                            </strong>
                         </span>
 
                     </div>
@@ -1674,6 +1682,13 @@ reliable | niezawodny"></textarea>
                 "passwordError"
             );
 
+        const finishSound =
+            document.getElementById(
+                "finishSound"
+            );
+
+        finishSound.volume = 0.8;
+
         async function sha256(text) {
             const data =
                 new TextEncoder()
@@ -1867,73 +1882,119 @@ reliable | niezawodny"></textarea>
         let speechVoices = [];
 
         const deckSelect =
-            document.getElementById("deckSelect");
+            document.getElementById(
+                "deckSelect"
+            );
 
         const flashcard =
-            document.getElementById("flashcard");
+            document.getElementById(
+                "flashcard"
+            );
 
         const frontText =
-            document.getElementById("frontText");
+            document.getElementById(
+                "frontText"
+            );
 
         const backText =
-            document.getElementById("backText");
+            document.getElementById(
+                "backText"
+            );
 
         const progressText =
-            document.getElementById("progressText");
+            document.getElementById(
+                "progressText"
+            );
 
         const progressBar =
-            document.getElementById("progressBar");
+            document.getElementById(
+                "progressBar"
+            );
 
         const deckName =
-            document.getElementById("deckName");
+            document.getElementById(
+                "deckName"
+            );
 
         const knownCount =
-            document.getElementById("knownCount");
+            document.getElementById(
+                "knownCount"
+            );
 
         const repeatCount =
-            document.getElementById("repeatCount");
+            document.getElementById(
+                "repeatCount"
+            );
 
         const roundInfo =
-            document.getElementById("roundInfo");
+            document.getElementById(
+                "roundInfo"
+            );
 
         const accentSelect =
-            document.getElementById("accentSelect");
+            document.getElementById(
+                "accentSelect"
+            );
 
         const autoSpeak =
-            document.getElementById("autoSpeak");
+            document.getElementById(
+                "autoSpeak"
+            );
 
         const speakBtn =
-            document.getElementById("speakBtn");
+            document.getElementById(
+                "speakBtn"
+            );
 
         const speakSlowBtn =
-            document.getElementById("speakSlowBtn");
+            document.getElementById(
+                "speakSlowBtn"
+            );
 
         const deckList =
-            document.getElementById("deckList");
+            document.getElementById(
+                "deckList"
+            );
 
         const editDeckName =
-            document.getElementById("editDeckName");
+            document.getElementById(
+                "editDeckName"
+            );
 
         const cardsList =
-            document.getElementById("cardsList");
+            document.getElementById(
+                "cardsList"
+            );
 
         const editorCardCount =
-            document.getElementById("editorCardCount");
+            document.getElementById(
+                "editorCardCount"
+            );
 
         const newDeckDialog =
-            document.getElementById("newDeckDialog");
+            document.getElementById(
+                "newDeckDialog"
+            );
 
         const newDeckNameInput =
-            document.getElementById("newDeckName");
+            document.getElementById(
+                "newDeckName"
+            );
 
         const bulkCards =
-            document.getElementById("bulkCards");
+            document.getElementById(
+                "bulkCards"
+            );
 
         const importFile =
-            document.getElementById("importFile");
+            document.getElementById(
+                "importFile"
+            );
 
         const themeToggle =
-            document.getElementById("themeToggle");
+            document.getElementById(
+                "themeToggle"
+            );
 
         const themeColorMeta =
             document.querySelector(
@@ -1941,34 +2002,54 @@ reliable | niezawodny"></textarea>
             );
 
         const studySession =
-            document.getElementById("studySession");
+            document.getElementById(
+                "studySession"
+            );
 
         const completionView =
-            document.getElementById("completionView");
+            document.getElementById(
+                "completionView"
+            );
 
         const completedDeckName =
-            document.getElementById("completedDeckName");
+            document.getElementById(
+                "completedDeckName"
+            );
 
         const completedKnown =
-            document.getElementById("completedKnown");
+            document.getElementById(
+                "completedKnown"
+            );
 
         const completedRepeat =
-            document.getElementById("completedRepeat");
+            document.getElementById(
+                "completedRepeat"
+            );
 
         const repeatDeckBtn =
-            document.getElementById("repeatDeckBtn");
+            document.getElementById(
+                "repeatDeckBtn"
+            );
 
         const nextDeckBtn =
-            document.getElementById("nextDeckBtn");
+            document.getElementById(
+                "nextDeckBtn"
+            );
 
         const pinkPurchaseDialog =
-            document.getElementById("pinkPurchaseDialog");
+            document.getElementById(
+                "pinkPurchaseDialog"
+            );
 
         const confirmPinkPurchase =
-            document.getElementById("confirmPinkPurchase");
+            document.getElementById(
+                "confirmPinkPurchase"
+            );
 
         const cancelPinkPurchase =
-            document.getElementById("cancelPinkPurchase");
+            document.getElementById(
+                "cancelPinkPurchase"
+            );
 
         function loadState() {
             try {
@@ -1996,7 +2077,10 @@ reliable | niezawodny"></textarea>
             }
 
             return {
-                decks: [defaultDeck],
+                decks: [
+                    defaultDeck
+                ],
+
                 activeDeckId:
                     defaultDeck.id
             };
@@ -2024,6 +2108,44 @@ reliable | niezawodny"></textarea>
             );
         }
 
+        function playFinishSound() {
+            if (
+                document.body.dataset.theme !==
+                "pink"
+            ) {
+                return;
+            }
+
+            if (!finishSound) {
+                return;
+            }
+
+            finishSound.pause();
+
+            finishSound.currentTime = 0;
+
+            finishSound
+                .play()
+                .catch(
+                    error => {
+                        console.error(
+                            "Nie udało się odtworzyć Happy.mp3:",
+                            error
+                        );
+                    }
+                );
+        }
+
+        function stopFinishSound() {
+            if (!finishSound) {
+                return;
+            }
+
+            finishSound.pause();
+
+            finishSound.currentTime = 0;
+        }
+
         function isPinkUnlocked() {
             try {
                 return (
@@ -2048,7 +2170,8 @@ reliable | niezawodny"></textarea>
         }
 
         function loadTheme() {
-            let theme = "dark";
+            let theme =
+                "dark";
 
             try {
                 const savedTheme =
@@ -2060,13 +2183,15 @@ reliable | niezawodny"></textarea>
                     savedTheme === "pink" &&
                     isPinkUnlocked()
                 ) {
-                    theme = "pink";
+                    theme =
+                        "pink";
                 }
 
                 if (
                     savedTheme === "dark"
                 ) {
-                    theme = "dark";
+                    theme =
+                        "dark";
                 }
             } catch (error) {
                 console.error(error);
@@ -2080,7 +2205,8 @@ reliable | niezawodny"></textarea>
                 theme === "pink" &&
                 !isPinkUnlocked()
             ) {
-                theme = "dark";
+                theme =
+                    "dark";
             }
 
             document.body.dataset.theme =
@@ -2097,6 +2223,8 @@ reliable | niezawodny"></textarea>
                     "#291720"
                 );
             } else {
+                stopFinishSound();
+
                 if (
                     isPinkUnlocked()
                 ) {
@@ -2135,18 +2263,31 @@ reliable | niezawodny"></textarea>
                     "dark";
 
                 if (
-                    currentTheme === "pink"
+                    currentTheme ===
+                    "pink"
                 ) {
-                    applyTheme("dark");
-                    saveTheme("dark");
+                    applyTheme(
+                        "dark"
+                    );
+
+                    saveTheme(
+                        "dark"
+                    );
+
                     return;
                 }
 
                 if (
                     isPinkUnlocked()
                 ) {
-                    applyTheme("pink");
-                    saveTheme("pink");
+                    applyTheme(
+                        "pink"
+                    );
+
+                    saveTheme(
+                        "pink"
+                    );
+
                     return;
                 }
 
@@ -2158,7 +2299,8 @@ reliable | niezawodny"></textarea>
         cancelPinkPurchase.addEventListener(
             "click",
             () => {
-                pinkPurchaseDialog.close();
+                pinkPurchaseDialog
+                    .close();
             }
         );
 
@@ -2167,11 +2309,16 @@ reliable | niezawodny"></textarea>
             () => {
                 unlockPinkTheme();
 
-                pinkPurchaseDialog.close();
+                pinkPurchaseDialog
+                    .close();
 
-                applyTheme("pink");
+                applyTheme(
+                    "pink"
+                );
 
-                saveTheme("pink");
+                saveTheme(
+                    "pink"
+                );
             }
         );
 
@@ -2281,7 +2428,9 @@ reliable | niezawodny"></textarea>
                 );
         }
 
-        function findEnglishVoice(language) {
+        function findEnglishVoice(
+            language
+        ) {
             if (
                 !speechVoices.length
             ) {
@@ -2290,14 +2439,20 @@ reliable | niezawodny"></textarea>
 
             const normalizedLanguage =
                 language
-                    .replace("_", "-")
+                    .replace(
+                        "_",
+                        "-"
+                    )
                     .toLowerCase();
 
             let matchingVoices =
                 speechVoices.filter(
                     voice =>
                         voice.lang
-                            .replace("_", "-")
+                            .replace(
+                                "_",
+                                "-"
+                            )
                             .toLowerCase() ===
                         normalizedLanguage
                 );
@@ -2310,7 +2465,9 @@ reliable | niezawodny"></textarea>
                         voice =>
                             voice.lang
                                 .toLowerCase()
-                                .startsWith("en")
+                                .startsWith(
+                                    "en"
+                                )
                     );
             }
 
@@ -2403,8 +2560,11 @@ reliable | niezawodny"></textarea>
             utterance.lang =
                 language;
 
-            utterance.volume = 1;
-            utterance.pitch = 1;
+            utterance.volume =
+                1;
+
+            utterance.pitch =
+                1;
 
             utterance.rate =
                 slow
@@ -2611,6 +2771,8 @@ reliable | niezawodny"></textarea>
                     "hidden"
                 );
 
+            playFinishSound();
+
             window.scrollTo({
                 top: 0,
                 behavior: "smooth"
@@ -2618,11 +2780,19 @@ reliable | niezawodny"></textarea>
         }
 
         function resetSession() {
-            currentIndex = 0;
-            flipped = false;
-            roundNumber = 1;
+            stopFinishSound();
+
+            currentIndex =
+                0;
+
+            flipped =
+                false;
+
+            roundNumber =
+                1;
 
             knownCards.clear();
+
             repeatCards.clear();
 
             const deck =
@@ -2660,6 +2830,7 @@ reliable | niezawodny"></textarea>
                 isDeckCompleted()
             ) {
                 showCompletion();
+
                 return;
             }
 
@@ -2684,9 +2855,14 @@ reliable | niezawodny"></textarea>
                 return;
             }
 
-            roundNumber += 1;
-            currentIndex = 0;
-            flipped = false;
+            roundNumber +=
+                1;
+
+            currentIndex =
+                0;
+
+            flipped =
+                false;
 
             window
                 .speechSynthesis
@@ -2786,7 +2962,8 @@ reliable | niezawodny"></textarea>
                 currentIndex >=
                 currentOrder.length
             ) {
-                currentIndex = 0;
+                currentIndex =
+                    0;
             }
 
             const realIndex =
@@ -2923,6 +3100,7 @@ reliable | niezawodny"></textarea>
                 isDeckCompleted()
             ) {
                 showCompletion();
+
                 return;
             }
 
@@ -2931,11 +3109,15 @@ reliable | niezawodny"></textarea>
                 currentOrder.length - 1
             ) {
                 startNextRound();
+
                 return;
             }
 
-            currentIndex += 1;
-            flipped = false;
+            currentIndex +=
+                1;
+
+            flipped =
+                false;
 
             renderStudy();
         }
@@ -2965,10 +3147,12 @@ reliable | niezawodny"></textarea>
             if (
                 currentIndex > 0
             ) {
-                currentIndex -= 1;
+                currentIndex -=
+                    1;
             }
 
-            flipped = false;
+            flipped =
+                false;
 
             renderStudy();
         }
@@ -3011,7 +3195,9 @@ reliable | niezawodny"></textarea>
                 isDeckCompleted()
             ) {
                 renderStudy();
+
                 showCompletion();
+
                 return;
             }
 
@@ -3033,6 +3219,8 @@ reliable | niezawodny"></textarea>
                     return;
                 }
 
+                stopFinishSound();
+
                 state.activeDeckId =
                     nextDeck.id;
 
@@ -3040,6 +3228,7 @@ reliable | niezawodny"></textarea>
                     nextDeck.id;
 
                 saveState();
+
                 resetSession();
             }
         );
@@ -3047,6 +3236,8 @@ reliable | niezawodny"></textarea>
         deckSelect.addEventListener(
             "change",
             () => {
+                stopFinishSound();
+
                 state.activeDeckId =
                     deckSelect.value;
 
@@ -3054,6 +3245,7 @@ reliable | niezawodny"></textarea>
                     deckSelect.value;
 
                 saveState();
+
                 resetSession();
             }
         );
@@ -3131,6 +3323,8 @@ reliable | niezawodny"></textarea>
                         return;
                     }
 
+                    stopFinishSound();
+
                     currentOrder =
                         shuffleArray(
                             deck.cards.map(
@@ -3139,11 +3333,17 @@ reliable | niezawodny"></textarea>
                             )
                         );
 
-                    currentIndex = 0;
-                    flipped = false;
-                    roundNumber = 1;
+                    currentIndex =
+                        0;
+
+                    flipped =
+                        false;
+
+                    roundNumber =
+                        1;
 
                     knownCards.clear();
+
                     repeatCards.clear();
 
                     window
@@ -3310,6 +3510,8 @@ reliable | niezawodny"></textarea>
                                 view ===
                                 "manage"
                             ) {
+                                stopFinishSound();
+
                                 window
                                     .speechSynthesis
                                     ?.cancel();
@@ -3337,6 +3539,7 @@ reliable | niezawodny"></textarea>
             }
 
             renderDeckList();
+
             renderDeckEditor();
         }
 
@@ -3911,7 +4114,8 @@ reliable | niezawodny"></textarea>
                     bulkCards.value =
                         "";
 
-                    newDeckDialog.showModal();
+                    newDeckDialog
+                        .showModal();
 
                     setTimeout(
                         () =>
@@ -3929,7 +4133,8 @@ reliable | niezawodny"></textarea>
             .addEventListener(
                 "click",
                 () =>
-                    newDeckDialog.close()
+                    newDeckDialog
+                        .close()
             );
 
         document
@@ -3978,7 +4183,8 @@ reliable | niezawodny"></textarea>
 
                     saveState();
 
-                    newDeckDialog.close();
+                    newDeckDialog
+                        .close();
 
                     resetSession();
 
@@ -4124,7 +4330,8 @@ reliable | niezawodny"></textarea>
             .addEventListener(
                 "click",
                 () =>
-                    importFile.click()
+                    importFile
+                        .click()
             );
 
         importFile.addEventListener(
@@ -4165,6 +4372,8 @@ reliable | niezawodny"></textarea>
 
                         return;
                     }
+
+                    stopFinishSound();
 
                     state =
                         imported;
@@ -4227,8 +4436,11 @@ reliable | niezawodny"></textarea>
             );
 
         loadTheme();
+
         loadTTSSettings();
+
         resetSession();
+
         renderManager();
     </script>
 
