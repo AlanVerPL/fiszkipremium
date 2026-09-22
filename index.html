@@ -2342,6 +2342,23 @@
         </div>
     </dialog>
 
+    <dialog id="exportDialog">
+        <div class="dialog-content">
+            <h2>Zapisz fiszki</h2>
+            <div class="input-group">
+                <label for="exportFilenameInput">Nazwa pliku</label>
+                <input id="exportFilenameInput"
+                       maxlength="80"
+                       placeholder="flashcards">
+            </div>
+            <p class="daily-task-meta">Pozostaw puste, aby zapisać jako <strong>flashcards.json</strong>.</p>
+            <div class="dialog-actions">
+                <button class="button" id="cancelExportBtn" type="button">Anuluj</button>
+                <button class="button primary" id="confirmExportBtn" type="button">Zapisz</button>
+            </div>
+        </div>
+    </dialog>
+
     <dialog id="newDeckDialog">
 
         <div class="dialog-content">
@@ -7038,52 +7055,49 @@ reliable | niezawodny"></textarea>
             return cards;
         }
 
-        document
-            .getElementById(
-                "exportBtn"
-            )
-            .addEventListener(
-                "click",
-                () => {
-                    const data =
-                        JSON.stringify(
-                            state,
-                            null,
-                            2
-                        );
+        const exportDialog = document.getElementById("exportDialog");
+        const exportFilenameInput = document.getElementById("exportFilenameInput");
 
-                    const blob =
-                        new Blob(
-                            [data],
-                            {
-                                type:
-                                    "application/json"
-                            }
-                        );
+        function getExportFilename(value) {
+            const base = String(value || "")
+                .trim()
+                .replace(/[\\/:*?"<>|]/g, "-")
+                .replace(/\.+$/g, "") || "flashcards";
 
-                    const url =
-                        URL.createObjectURL(
-                            blob
-                        );
+            return base.toLowerCase().endsWith(".json")
+                ? base
+                : `${base}.json`;
+        }
 
-                    const link =
-                        document.createElement(
-                            "a"
-                        );
+        function downloadBackup(filename) {
+            const data = JSON.stringify(state, null, 2);
+            const blob = new Blob([data], { type: "application/json" });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.href = url;
+            link.download = filename;
+            link.click();
+            URL.revokeObjectURL(url);
+        }
 
-                    link.href =
-                        url;
+        document.getElementById("exportBtn").addEventListener("click", () => {
+            exportFilenameInput.value = "";
+            exportDialog.showModal();
+            exportFilenameInput.focus();
+        });
 
-                    link.download =
-                        "flashcards-backup.json";
+        document.getElementById("cancelExportBtn").addEventListener("click", () => exportDialog.close());
 
-                    link.click();
+        document.getElementById("confirmExportBtn").addEventListener("click", () => {
+            downloadBackup(getExportFilename(exportFilenameInput.value));
+            exportDialog.close();
+        });
 
-                    URL.revokeObjectURL(
-                        url
-                    );
-                }
-            );
+        exportFilenameInput.addEventListener("keydown", event => {
+            if (event.key === "Enter") {
+                document.getElementById("confirmExportBtn").click();
+            }
+        });
 
         document
             .getElementById(
