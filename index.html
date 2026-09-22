@@ -779,6 +779,28 @@
             color: var(--text);
         }
 
+        .daily-reset-timer {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin-top: 8px;
+            padding: 8px 11px;
+            border: 1px solid color-mix(in srgb, var(--accent) 22%, var(--border));
+            border-radius: 10px;
+            background: color-mix(in srgb, var(--accent) 8%, var(--panel-2));
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .daily-reset-timer strong {
+            color: var(--text);
+            font-variant-numeric: tabular-nums;
+            letter-spacing: 0.04em;
+        }
+
         #dailyPackageNoteText {
             flex: 1 1 220px;
         }
@@ -1946,6 +1968,12 @@
                     <div class="daily-next-task"
                          id="dailyNextTask">
                         Jutro · <strong>Naucz się 30 słów</strong>
+                    </div>
+
+                    <div class="daily-reset-timer"
+                         aria-live="polite">
+                        <span>↻ Kolejne zadanie za</span>
+                        <strong id="dailyResetTimer">--:--:--</strong>
                     </div>
 
                     <div class="daily-package-note"
@@ -3177,6 +3205,11 @@ reliable | niezawodny"></textarea>
                 "dailyNextTask"
             );
 
+        const dailyResetTimer =
+            document.getElementById(
+                "dailyResetTimer"
+            );
+
         const dailyPackageNote =
             document.getElementById(
                 "dailyPackageNote"
@@ -4334,6 +4367,33 @@ reliable | niezawodny"></textarea>
                     "hidden"
                 );
             }
+        }
+
+        function updateDailyResetTimer() {
+            if (
+                state.daily?.date !==
+                getDateKey()
+            ) {
+                renderDailyMotivation();
+            }
+
+            const now = new Date();
+            const nextMidnight = new Date(now);
+            nextMidnight.setHours(24, 0, 0, 0);
+
+            const remainingSeconds = Math.max(
+                0,
+                Math.ceil((nextMidnight - now) / 1000)
+            );
+
+            const hours = Math.floor(remainingSeconds / 3600);
+            const minutes = Math.floor((remainingSeconds % 3600) / 60);
+            const seconds = remainingSeconds % 60;
+
+            dailyResetTimer.textContent =
+                [hours, minutes, seconds]
+                    .map(value => String(value).padStart(2, "0"))
+                    .join(":");
         }
 
         function recordDailyPackageCompletion(
@@ -7146,6 +7206,9 @@ reliable | niezawodny"></textarea>
         resetSession();
 
         renderManager();
+
+        updateDailyResetTimer();
+        window.setInterval(updateDailyResetTimer, 1000);
     </script>
 
 </body>
