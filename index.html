@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
@@ -539,6 +539,404 @@
             font-size: 12px;
         }
 
+        .daily-motivation {
+            position: relative;
+            margin: 0 0 24px;
+            padding: 18px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            background: linear-gradient(135deg, var(--panel-glass), color-mix(in srgb, var(--accent) 10%, var(--panel-glass)));
+            box-shadow: 0 18px 50px var(--shadow);
+            transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .daily-motivation::after {
+            content: "";
+            position: absolute;
+            width: 170px;
+            height: 170px;
+            right: -80px;
+            top: -90px;
+            border-radius: 50%;
+            background: color-mix(in srgb, var(--accent) 20%, transparent);
+            filter: blur(4px);
+            pointer-events: none;
+        }
+
+        .daily-motivation::before {
+            content: "✦  🔥  ✦";
+            position: absolute;
+            top: 7px;
+            left: 50%;
+            z-index: 2;
+            color: #ffd166;
+            font-size: 17px;
+            letter-spacing: 10px;
+            opacity: 0;
+            pointer-events: none;
+            transform: translate(-50%, 8px) scale(0.75);
+        }
+
+        .daily-motivation.celebrate {
+            animation: dailyCelebrate 0.8s ease both;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 16%, transparent), 0 20px 60px var(--shadow);
+        }
+
+        .daily-motivation.celebrate::before {
+            animation: streakSparkle 1.1s ease-out both;
+        }
+
+        .daily-motivation.celebrate .daily-streak-badge {
+            animation: badgePop 0.75s cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
+
+        @keyframes dailyCelebrate {
+            0% {
+                transform: scale(1);
+            }
+            35% {
+                transform: scale(1.018) rotate(-0.3deg);
+            }
+            70% {
+                transform: scale(1.01) rotate(0.3deg);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes streakSparkle {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, 8px) scale(0.75);
+            }
+            28% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: translate(-50%, -22px) scale(1.18);
+            }
+        }
+
+        @keyframes badgePop {
+            0% {
+                transform: scale(1);
+            }
+            45% {
+                transform: scale(1.08) rotate(-1deg);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .daily-motivation-header {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .daily-streak-badge {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            min-width: 116px;
+            padding: 9px 11px;
+            border: 1px solid color-mix(in srgb, var(--accent) 40%, var(--border));
+            border-radius: 14px;
+            background: color-mix(in srgb, var(--accent) 14%, var(--panel-2));
+        }
+
+        .streak-flame {
+            display: inline-block;
+            font-size: 29px;
+            line-height: 1;
+            filter: saturate(0.7);
+            transform: scale(0.9);
+            transition: filter 0.2s ease, transform 0.2s ease;
+        }
+
+        .daily-streak-badge[data-level="1"] .streak-flame,
+        .daily-streak-badge[data-level="2"] .streak-flame {
+            filter: saturate(1.15);
+            transform: scale(1);
+        }
+
+        .daily-streak-badge[data-level="3"] .streak-flame,
+        .daily-streak-badge[data-level="4"] .streak-flame {
+            filter: saturate(1.4) drop-shadow(0 0 8px rgba(255, 126, 48, 0.45));
+            transform: scale(1.12);
+            animation: flameWiggle 1.6s ease-in-out infinite;
+        }
+
+        @keyframes flameWiggle {
+            0%, 100% {
+                transform: scale(1.12) rotate(-3deg);
+            }
+            50% {
+                transform: scale(1.18) rotate(3deg);
+            }
+        }
+
+        .daily-streak-number {
+            display: block;
+            font-size: 18px;
+            font-weight: 800;
+            line-height: 1.1;
+        }
+
+        .daily-streak-label {
+            display: block;
+            margin-top: 3px;
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        .daily-motivation-copy {
+            min-width: 0;
+        }
+
+        .daily-eyebrow {
+            color: var(--accent-hover);
+            font-size: 11px;
+            font-weight: 750;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .daily-task-title {
+            margin: 3px 0 3px;
+            font-size: 17px;
+        }
+
+        .daily-task-meta {
+            margin: 0;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .daily-progress-track {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            height: 9px;
+            margin-top: 17px;
+            overflow: hidden;
+            border-radius: 999px;
+            background: color-mix(in srgb, var(--panel-2) 88%, var(--accent) 12%);
+        }
+
+        .daily-progress-bar {
+            width: 0;
+            height: 100%;
+            border-radius: inherit;
+            background: linear-gradient(90deg, var(--accent), var(--accent-hover));
+            box-shadow: 0 0 14px color-mix(in srgb, var(--accent) 55%, transparent);
+            transition: width 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .daily-progress-row {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-top: 8px;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .daily-goal-status {
+            color: var(--green);
+            font-weight: 700;
+            text-align: right;
+        }
+
+        .daily-next-task,
+        .daily-package-note {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 11px;
+            padding: 9px 11px;
+            border-radius: 10px;
+            background: color-mix(in srgb, var(--panel-2) 78%, transparent);
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.45;
+        }
+
+        .daily-next-task strong,
+        .daily-package-note strong {
+            color: var(--text);
+        }
+
+        #dailyPackageNoteText {
+            flex: 1 1 220px;
+        }
+
+        .daily-package-note.warning {
+            color: var(--text);
+            border: 1px solid color-mix(in srgb, var(--accent) 28%, var(--border));
+        }
+
+        .daily-add-deck-button {
+            min-height: 32px;
+            margin-top: 8px;
+            padding: 5px 9px;
+            font-size: 12px;
+        }
+
+        .daily-reward-gallery {
+            position: relative;
+            z-index: 1;
+            margin-top: 15px;
+            padding-top: 13px;
+            border-top: 1px solid var(--border);
+        }
+
+        .daily-reward-heading {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 9px;
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .reward-gallery {
+            display: grid;
+            grid-template-columns: repeat(7, minmax(0, 1fr));
+            gap: 7px;
+        }
+
+        .reward-card {
+            min-width: 0;
+            padding: 4px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: color-mix(in srgb, var(--panel-2) 80%, transparent);
+            text-align: center;
+            transition: border-color 0.18s ease, transform 0.18s ease, opacity 0.18s ease;
+        }
+
+        .reward-card.unlocked {
+            border-color: color-mix(in srgb, var(--accent) 55%, var(--border));
+        }
+
+        .reward-card.current {
+            transform: translateY(-2px);
+            box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 22%, transparent);
+        }
+
+        .reward-card.locked {
+            opacity: 0.62;
+        }
+
+        .reward-card.locked .reward-fallback {
+            filter: none;
+        }
+
+        .reward-card img {
+            display: block;
+            width: 100%;
+            aspect-ratio: 1;
+            object-fit: cover;
+            border-radius: 7px;
+            background: var(--panel);
+            transition: filter 0.2s ease;
+        }
+
+        .reward-fallback {
+            display: grid;
+            width: 100%;
+            aspect-ratio: 1;
+            place-items: center;
+            border-radius: 7px;
+            background: var(--panel);
+            font-size: 28px;
+            line-height: 1;
+        }
+
+        .reward-card.locked img {
+            filter: grayscale(1) brightness(0.72);
+        }
+
+        .reward-card-label {
+            display: block;
+            padding: 4px 1px 2px;
+            color: var(--muted);
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        #rewardUnlockDialog {
+            width: min(390px, calc(100% - 30px));
+            text-align: center;
+        }
+
+        #rewardUnlockDialog[open] .dialog-content {
+            animation: rewardAppear 0.65s cubic-bezier(0.2, 1.25, 0.35, 1) both;
+        }
+
+        #rewardUnlockDialog img {
+            display: block;
+            width: min(230px, 85%);
+            aspect-ratio: 1;
+            object-fit: cover;
+            margin: 14px auto;
+            border-radius: 18px;
+            box-shadow: 0 14px 35px var(--shadow);
+        }
+
+        #rewardUnlockDialog .reward-fallback {
+            width: 150px;
+            margin: 14px auto;
+            font-size: 72px;
+        }
+
+        @keyframes rewardAppear {
+            from { opacity: 0; transform: translateY(25px) scale(0.7) rotate(-5deg); }
+            65% { opacity: 1; transform: translateY(-4px) scale(1.06) rotate(2deg); }
+            to { opacity: 1; transform: translateY(0) scale(1) rotate(0); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .daily-motivation.celebrate,
+            .daily-motivation.celebrate::before,
+            .daily-motivation.celebrate .daily-streak-badge,
+            #rewardUnlockDialog[open] .dialog-content {
+                animation: none;
+            }
+        }
+
+        @media (max-width: 700px) {
+            .reward-gallery {
+                grid-template-columns: repeat(7, minmax(58px, 1fr));
+                overflow-x: auto;
+                padding-bottom: 3px;
+            }
+
+            .daily-motivation-header,
+            .daily-progress-row {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .daily-goal-status {
+                text-align: left;
+            }
+        }
+
         .completion-view {
             margin-top: 24px;
         }
@@ -652,13 +1050,173 @@
             margin-bottom: 16px;
         }
 
+        .deck-list-hint {
+            margin: -5px 0 11px;
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.45;
+        }
+
+        .deck-group {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .deck-group + .deck-group {
+            margin-top: 8px;
+        }
+
+        .folder-dropzone {
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: var(--panel-2);
+            background: color-mix(in srgb, var(--panel-2) 88%, var(--folder-color, var(--accent)) 12%);
+            transition: border-color 0.16s ease, background 0.16s ease, box-shadow 0.16s ease, transform 0.16s ease;
+        }
+
+        .folder-dropzone.drag-over {
+            border-color: var(--folder-color, var(--accent));
+            background: color-mix(in srgb, var(--folder-color, var(--accent)) 18%, var(--panel-2));
+            box-shadow: 0 0 0 3px color-mix(in srgb, var(--folder-color, var(--accent)) 22%, transparent);
+            transform: translateY(-1px);
+        }
+
+        .folder-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            min-width: 0;
+            padding: 10px 10px 8px;
+        }
+
+        .folder-color-dot {
+            width: 12px;
+            height: 12px;
+            flex: 0 0 12px;
+            border-radius: 50%;
+            background: var(--folder-color, var(--accent));
+            box-shadow: 0 0 0 3px color-mix(in srgb, var(--folder-color, var(--accent)) 18%, transparent);
+        }
+
+        .folder-title {
+            min-width: 0;
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-weight: 650;
+        }
+
+        .folder-count {
+            color: var(--muted);
+            font-size: 11px;
+            white-space: nowrap;
+        }
+
+        .folder-actions {
+            display: flex;
+            gap: 4px;
+            flex: 0 0 auto;
+        }
+
+        .folder-action {
+            width: 30px;
+            height: 30px;
+            padding: 0;
+            border-radius: 8px;
+            border: 1px solid transparent;
+            background: transparent;
+            color: var(--muted);
+        }
+
+        .folder-action:hover {
+            border-color: var(--border);
+            background: var(--panel);
+            color: var(--text);
+        }
+
+        .folder-action.danger:hover {
+            color: var(--red);
+        }
+
+        .folder-items {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+            padding: 0 7px 7px;
+        }
+
+        .folder-empty {
+            padding: 6px 8px 9px;
+            color: var(--muted);
+            font-size: 12px;
+            text-align: center;
+        }
+
+        .unfiled-section {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+            padding-top: 4px;
+        }
+
+        .unfiled-title {
+            padding: 4px 2px 1px;
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 650;
+            letter-spacing: 0.02em;
+        }
+
+        .unfiled-items {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .unfiled-drop-target {
+            min-height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 9px 10px;
+            border: 1px dashed var(--border);
+            border-radius: 10px;
+            color: var(--muted);
+            font-size: 12px;
+            text-align: center;
+            transition: border-color 0.16s ease, background 0.16s ease, box-shadow 0.16s ease;
+        }
+
+        .unfiled-section.drag-over .unfiled-drop-target,
+        .unfiled-drop-target.drag-over {
+            border-color: var(--accent);
+            background: color-mix(in srgb, var(--accent) 13%, transparent);
+            box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 15%, transparent);
+        }
+
         .deck-item {
+            position: relative;
             padding: 12px;
             border-radius: 10px;
             border: 1px solid var(--border);
             background: var(--panel-2);
             cursor: pointer;
+            touch-action: none;
             overflow-wrap: anywhere;
+            transition: border-color 0.16s ease, background 0.16s ease, opacity 0.16s ease, transform 0.16s ease;
+        }
+
+        .deck-item[draggable="true"],
+        .deck-item.is-dragging {
+            cursor: grab;
+        }
+
+        .deck-item.is-dragging {
+            opacity: 0.48;
+            cursor: grabbing;
+            transform: scale(0.985);
         }
 
             .deck-item.active {
@@ -775,6 +1333,101 @@
             justify-content: flex-end;
             gap: 8px;
             margin-top: 20px;
+        }
+
+        .folder-color-input {
+            width: 100%;
+            height: 46px;
+            padding: 4px;
+            cursor: pointer;
+        }
+
+        .folder-palette {
+            display: grid;
+            grid-template-columns: repeat(6, minmax(0, 1fr));
+            gap: 8px;
+        }
+
+        .folder-color-swatch {
+            position: relative;
+            min-width: 0;
+            aspect-ratio: 1;
+            padding: 0;
+            border: 2px solid transparent;
+            border-radius: 10px;
+            background: var(--swatch-color);
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.14);
+            transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .folder-color-swatch:hover {
+            transform: translateY(-1px) scale(1.04);
+        }
+
+        .folder-color-swatch.selected {
+            border-color: var(--text);
+            box-shadow: 0 0 0 3px color-mix(in srgb, var(--swatch-color) 35%, transparent), inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+        }
+
+        .folder-color-swatch.selected::after {
+            content: "✓";
+            position: absolute;
+            inset: 0;
+            display: grid;
+            place-items: center;
+            color: white;
+            font-size: 18px;
+            font-weight: 800;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
+        .advanced-color-options {
+            margin-top: 12px;
+            border: 1px solid var(--border);
+            border-radius: 11px;
+            background: rgba(0, 0, 0, 0.08);
+        }
+
+        .advanced-color-options summary {
+            padding: 10px 12px;
+            cursor: pointer;
+            color: var(--muted);
+            font-size: 13px;
+            font-weight: 600;
+            user-select: none;
+        }
+
+        .advanced-color-options[open] summary {
+            color: var(--text);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .advanced-color-content {
+            display: grid;
+            grid-template-columns: 1fr 130px;
+            gap: 10px;
+            align-items: end;
+            padding: 12px;
+        }
+
+        .advanced-color-content label {
+            display: block;
+            margin-bottom: 6px;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .folder-hex-input {
+            width: 100%;
+            min-height: 46px;
+            text-transform: uppercase;
+        }
+
+        .folder-color-value {
+            grid-column: 1 / -1;
+            margin: 0;
+            color: var(--muted);
+            font-size: 12px;
         }
 
         #pinkPurchaseDialog {
@@ -1168,6 +1821,11 @@
                         Pakiety
                     </button>
 
+                    <button class="tab"
+                            data-view="rewards">
+                        Nagrody
+                    </button>
+
                 </div>
 
             </div>
@@ -1214,6 +1872,96 @@
                     </label>
 
                 </div>
+
+                <section class="daily-motivation"
+                         id="dailyMotivation"
+                         aria-label="Codzienny cel nauki">
+
+                    <div class="daily-motivation-header">
+
+                        <div class="daily-streak-badge"
+                             id="dailyStreakBadge"
+                             data-level="0">
+
+                            <span class="streak-flame"
+                                  aria-hidden="true">
+                                🔥
+                            </span>
+
+                            <span>
+                                <strong class="daily-streak-number"
+                                        id="dailyStreakNumber">
+                                    0 dni
+                                </strong>
+
+                                <span class="daily-streak-label"
+                                      id="dailyStreakLabel">
+                                    Rozpal iskrę
+                                </span>
+                            </span>
+
+                        </div>
+
+                        <div class="daily-motivation-copy">
+
+                            <div class="daily-eyebrow">
+                                Dzisiejszy cel
+                            </div>
+
+                            <h3 class="daily-task-title"
+                                id="dailyTaskTitle">
+                                Ukończ 3 pakiety
+                            </h3>
+
+                            <p class="daily-task-meta"
+                               id="dailyTaskMeta">
+                                Każdy ukończony pakiet podtrzymuje Twój ogień.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="daily-progress-track"
+                         aria-hidden="true">
+
+                        <div class="daily-progress-bar"
+                             id="dailyProgressBar"></div>
+
+                    </div>
+
+                    <div class="daily-progress-row">
+
+                        <span id="dailyProgressText">
+                            Pakiety: 0 / 3
+                        </span>
+
+                        <span class="daily-goal-status"
+                              id="dailyGoalStatus">
+                            Ogień czeka na pierwszy pakiet
+                        </span>
+
+                    </div>
+
+                    <div class="daily-next-task"
+                         id="dailyNextTask">
+                        Jutro · <strong>Naucz się 30 słów</strong>
+                    </div>
+
+                    <div class="daily-package-note"
+                         id="dailyPackageNote">
+
+                        <span id="dailyPackageNoteText"></span>
+
+                        <button class="button small daily-add-deck-button hidden"
+                                id="dailyAddDeckButton"
+                                type="button">
+                            Dodaj pakiet
+                        </button>
+
+                    </div>
+
+                </section>
 
                 <div id="studySession">
 
@@ -1429,8 +2177,18 @@
 
                     <h3>Pakiety</h3>
 
+                    <p class="deck-list-hint">
+                        Przeciągnij pakiet na folder albo z powrotem poza foldery.
+                    </p>
+
                     <div class="deck-list"
                          id="deckList"></div>
+
+                    <button class="button"
+                            id="newFolderBtn"
+                            style="width:100%; margin-bottom:8px">
+                        + Nowy folder
+                    </button>
 
                     <button class="button primary"
                             id="newDeckBtn"
@@ -1531,7 +2289,30 @@
 
         </section>
 
+        <section id="rewardsView" class="hidden">
+            <div class="daily-reward-gallery">
+                <div class="daily-reward-heading">
+                    <span id="rewardGalleryTitle">Nagrody za passę</span>
+                    <span id="dailyRewardProgress"></span>
+                </div>
+                <p class="daily-task-meta">Zdjęcia i trofea pojawią się po osiągnięciu danego dnia passy.</p>
+                <div class="reward-gallery" id="dailyRewardGallery"></div>
+            </div>
+        </section>
+
     </div>
+
+    <dialog id="rewardUnlockDialog">
+        <div class="dialog-content">
+            <div class="daily-eyebrow">Nowa nagroda</div>
+            <h2 id="rewardUnlockTitle">Nagroda odblokowana!</h2>
+            <div id="rewardUnlockImage"></div>
+            <p id="rewardUnlockText" class="daily-task-meta"></p>
+            <div class="dialog-actions">
+                <button class="button primary" id="closeRewardUnlock" type="button">Super!</button>
+            </div>
+        </div>
+    </dialog>
 
     <dialog id="newDeckDialog">
 
@@ -1586,6 +2367,189 @@ reliable | niezawodny"></textarea>
                 <button class="button primary"
                         id="createDeckBtn">
                     Utwórz pakiet
+                </button>
+
+            </div>
+
+        </div>
+
+    </dialog>
+
+    <dialog id="folderDialog">
+
+        <div class="dialog-content">
+
+            <h2 id="folderDialogTitle">
+                Nowy folder
+            </h2>
+
+            <div class="input-group">
+
+                <label for="folderNameInput">
+                    Nazwa folderu
+                </label>
+
+                <input id="folderNameInput"
+                       maxlength="60"
+                       placeholder="np. Powtórki do pracy">
+
+            </div>
+
+            <div class="input-group">
+
+                <label>
+                    Kolor folderu
+                </label>
+
+                <div class="folder-palette"
+                     id="folderPalette"
+                     role="listbox"
+                     aria-label="Podstawowe kolory folderu">
+
+                    <button class="folder-color-swatch"
+                            type="button"
+                            style="--swatch-color:#3b82f6"
+                            data-color="#3b82f6"
+                            aria-label="Niebieski"
+                            title="Niebieski"></button>
+
+                    <button class="folder-color-swatch"
+                            type="button"
+                            style="--swatch-color:#06b6d4"
+                            data-color="#06b6d4"
+                            aria-label="Błękitny"
+                            title="Błękitny"></button>
+
+                    <button class="folder-color-swatch"
+                            type="button"
+                            style="--swatch-color:#22c55e"
+                            data-color="#22c55e"
+                            aria-label="Zielony"
+                            title="Zielony"></button>
+
+                    <button class="folder-color-swatch"
+                            type="button"
+                            style="--swatch-color:#10b981"
+                            data-color="#10b981"
+                            aria-label="Szmaragdowy"
+                            title="Szmaragdowy"></button>
+
+                    <button class="folder-color-swatch"
+                            type="button"
+                            style="--swatch-color:#84cc16"
+                            data-color="#84cc16"
+                            aria-label="Limonkowy"
+                            title="Limonkowy"></button>
+
+                    <button class="folder-color-swatch"
+                            type="button"
+                            style="--swatch-color:#eab308"
+                            data-color="#eab308"
+                            aria-label="Żółty"
+                            title="Żółty"></button>
+
+                    <button class="folder-color-swatch"
+                            type="button"
+                            style="--swatch-color:#f97316"
+                            data-color="#f97316"
+                            aria-label="Pomarańczowy"
+                            title="Pomarańczowy"></button>
+
+                    <button class="folder-color-swatch"
+                            type="button"
+                            style="--swatch-color:#ef4444"
+                            data-color="#ef4444"
+                            aria-label="Czerwony"
+                            title="Czerwony"></button>
+
+                    <button class="folder-color-swatch"
+                            type="button"
+                            style="--swatch-color:#f43f5e"
+                            data-color="#f43f5e"
+                            aria-label="Malinowy"
+                            title="Malinowy"></button>
+
+                    <button class="folder-color-swatch"
+                            type="button"
+                            style="--swatch-color:#ec4899"
+                            data-color="#ec4899"
+                            aria-label="Różowy"
+                            title="Różowy"></button>
+
+                    <button class="folder-color-swatch"
+                            type="button"
+                            style="--swatch-color:#8b5cf6"
+                            data-color="#8b5cf6"
+                            aria-label="Fioletowy"
+                            title="Fioletowy"></button>
+
+                    <button class="folder-color-swatch"
+                            type="button"
+                            style="--swatch-color:#7c6cff"
+                            data-color="#7c6cff"
+                            aria-label="Indygo"
+                            title="Indygo"></button>
+
+                </div>
+
+                <details class="advanced-color-options"
+                         id="advancedColorOptions">
+
+                    <summary>
+                        Zaawansowane opcje kolorów
+                    </summary>
+
+                    <div class="advanced-color-content">
+
+                        <div>
+
+                            <label for="folderColorInput">
+                                Dowolny kolor
+                            </label>
+
+                            <input id="folderColorInput"
+                                   class="folder-color-input"
+                                   type="color"
+                                   value="#7c6cff">
+
+                        </div>
+
+                        <div>
+
+                            <label for="folderHexInput">
+                                Kod HEX
+                            </label>
+
+                            <input id="folderHexInput"
+                                   class="folder-hex-input"
+                                   inputmode="text"
+                                   maxlength="7"
+                                   placeholder="#7C6CFF"
+                                   value="#7C6CFF">
+
+                        </div>
+
+                        <p class="folder-color-value"
+                           id="folderColorValue">
+                            Wybrany kolor: #7C6CFF
+                        </p>
+
+                    </div>
+
+                </details>
+
+            </div>
+
+            <div class="dialog-actions">
+
+                <button class="button"
+                        id="cancelFolderBtn">
+                    Anuluj
+                </button>
+
+                <button class="button primary"
+                        id="saveFolderBtn">
+                    Zapisz folder
                 </button>
 
             </div>
@@ -1657,6 +2621,33 @@ reliable | niezawodny"></textarea>
         const PINK_UNLOCKED_KEY =
             "flashcards-pink-unlocked-v1";
 
+        const DEFAULT_FOLDER_COLOR =
+            "#7c6cff";
+
+        const DAILY_PACKAGE_GOAL =
+            3;
+
+        const DAILY_WORD_GOAL =
+            30;
+
+        // Dodaj kolejny cel: { day: 105, cat: "kot105.jpg" }.
+        // Umieść zdjęcie w folderze assets obok tego pliku HTML.
+        const REWARD_CONFIG = [
+            { day: 1, cat: "kot1.jpg" },
+            { day: 5, cat: "kot5.jpg" },
+            { day: 10, cat: "kot10.jpg" },
+            { day: 15, cat: "kot15.jpg" },
+            { day: 20, cat: "kot20.jpg" },
+            { day: 30, cat: "kot30.jpg" },
+            { day: 40, cat: "kot40.jpg" },
+            { day: 50, cat: "kot50.jpg" },
+            { day: 60, cat: "kot60.jpg" },
+            { day: 70, cat: "kot70.jpg" },
+            { day: 80, cat: "kot80.jpg" },
+            { day: 90, cat: "kot90.jpg" },
+            { day: 100, cat: "kot100.jpg" }
+        ];
+
         const passwordGate =
             document.getElementById(
                 "passwordGate"
@@ -1688,6 +2679,27 @@ reliable | niezawodny"></textarea>
             );
 
         finishSound.volume = 0.8;
+
+        const HAPPY_SOUND_FALLBACK_URL =
+            "https://raw.githubusercontent.com/AlanVerPL/fiszkipremium/main/Happy.mp3";
+
+        finishSound.addEventListener(
+            "error",
+            () => {
+                if (
+                    finishSound.dataset.remoteFallback
+                ) {
+                    return;
+                }
+
+                finishSound.dataset.remoteFallback =
+                    "true";
+
+                finishSound.src =
+                    HAPPY_SOUND_FALLBACK_URL;
+                finishSound.load();
+            }
+        );
 
         async function sha256(text) {
             const data =
@@ -1879,6 +2891,15 @@ reliable | niezawodny"></textarea>
         let editingDeckId =
             state.activeDeckId;
 
+        let editingFolderId =
+            null;
+
+        let draggedDeckId =
+            null;
+
+        let pointerDragState =
+            null;
+
         let speechVoices = [];
 
         const deckSelect =
@@ -1976,6 +2997,61 @@ reliable | niezawodny"></textarea>
                 "newDeckDialog"
             );
 
+        const folderDialog =
+            document.getElementById(
+                "folderDialog"
+            );
+
+        const folderDialogTitle =
+            document.getElementById(
+                "folderDialogTitle"
+            );
+
+        const folderNameInput =
+            document.getElementById(
+                "folderNameInput"
+            );
+
+        const folderColorInput =
+            document.getElementById(
+                "folderColorInput"
+            );
+
+        const folderPalette =
+            document.getElementById(
+                "folderPalette"
+            );
+
+        const folderHexInput =
+            document.getElementById(
+                "folderHexInput"
+            );
+
+        const folderColorValue =
+            document.getElementById(
+                "folderColorValue"
+            );
+
+        const advancedColorOptions =
+            document.getElementById(
+                "advancedColorOptions"
+            );
+
+        const newFolderBtn =
+            document.getElementById(
+                "newFolderBtn"
+            );
+
+        const saveFolderBtn =
+            document.getElementById(
+                "saveFolderBtn"
+            );
+
+        const cancelFolderBtn =
+            document.getElementById(
+                "cancelFolderBtn"
+            );
+
         const newDeckNameInput =
             document.getElementById(
                 "newDeckName"
@@ -2051,6 +3127,306 @@ reliable | niezawodny"></textarea>
                 "cancelPinkPurchase"
             );
 
+        const dailyMotivation =
+            document.getElementById(
+                "dailyMotivation"
+            );
+
+        const dailyStreakBadge =
+            document.getElementById(
+                "dailyStreakBadge"
+            );
+
+        const dailyStreakNumber =
+            document.getElementById(
+                "dailyStreakNumber"
+            );
+
+        const dailyStreakLabel =
+            document.getElementById(
+                "dailyStreakLabel"
+            );
+
+        const dailyTaskTitle =
+            document.getElementById(
+                "dailyTaskTitle"
+            );
+
+        const dailyTaskMeta =
+            document.getElementById(
+                "dailyTaskMeta"
+            );
+
+        const dailyProgressBar =
+            document.getElementById(
+                "dailyProgressBar"
+            );
+
+        const dailyProgressText =
+            document.getElementById(
+                "dailyProgressText"
+            );
+
+        const dailyGoalStatus =
+            document.getElementById(
+                "dailyGoalStatus"
+            );
+
+        const dailyNextTask =
+            document.getElementById(
+                "dailyNextTask"
+            );
+
+        const dailyPackageNote =
+            document.getElementById(
+                "dailyPackageNote"
+            );
+
+        const dailyPackageNoteText =
+            document.getElementById(
+                "dailyPackageNoteText"
+            );
+
+        const dailyAddDeckButton =
+            document.getElementById(
+                "dailyAddDeckButton"
+            );
+
+        const dailyRewardProgress =
+            document.getElementById(
+                "dailyRewardProgress"
+            );
+
+        const dailyRewardGallery =
+            document.getElementById(
+                "dailyRewardGallery"
+            );
+
+        const rewardUnlockDialog = document.getElementById("rewardUnlockDialog");
+        const rewardUnlockTitle = document.getElementById("rewardUnlockTitle");
+        const rewardUnlockImage = document.getElementById("rewardUnlockImage");
+        const rewardUnlockText = document.getElementById("rewardUnlockText");
+        document.getElementById("closeRewardUnlock").addEventListener("click", () => rewardUnlockDialog.close());
+
+        function getDateKey(date = new Date()) {
+            const year =
+                date.getFullYear();
+
+            const month =
+                String(
+                    date.getMonth() +
+                    1
+                ).padStart(
+                    2,
+                    "0"
+                );
+
+            const day =
+                String(
+                    date.getDate()
+                ).padStart(
+                    2,
+                    "0"
+                );
+
+            return `${year}-${month}-${day}`;
+        }
+
+        function createDailyProgress(
+            date = getDateKey(),
+            taskType = "packages"
+        ) {
+            return {
+                date,
+                taskType,
+                streak: 0,
+                bestStreak: 0,
+                completedDeckIds: [],
+                learnedCardIds: [],
+                goalCompleted: false
+            };
+        }
+
+        function normalizeDailyProgress(
+            rawProgress
+        ) {
+            const source =
+                rawProgress &&
+                typeof rawProgress === "object"
+                    ? rawProgress
+                    : {};
+
+            return {
+                ...createDailyProgress(
+                    typeof source.date === "string"
+                        ? source.date
+                        : getDateKey(),
+                    source.taskType === "words" ? "words" : "packages"
+                ),
+                streak:
+                    Math.max(
+                        0,
+                        Number(
+                            source.streak
+                        ) || 0
+                    ),
+                bestStreak:
+                    Math.max(
+                        0,
+                        Number(
+                            source.bestStreak
+                        ) || 0
+                    ),
+                completedDeckIds:
+                    Array.isArray(
+                        source.completedDeckIds
+                    )
+                        ? [
+                            ...new Set(
+                                source.completedDeckIds
+                                    .filter(Boolean)
+                                    .map(
+                                        String
+                                    )
+                            )
+                        ]
+                        : [],
+                learnedCardIds:
+                    Array.isArray(
+                        source.learnedCardIds
+                    )
+                        ? [
+                            ...new Set(
+                                source.learnedCardIds
+                                    .filter(Boolean)
+                                    .map(
+                                        String
+                                    )
+                            )
+                        ]
+                        : [],
+                goalCompleted:
+                    Boolean(
+                        source.goalCompleted
+                    )
+            };
+        }
+
+        function rollDailyProgress(
+            rawProgress
+        ) {
+            const progress =
+                normalizeDailyProgress(
+                    rawProgress
+                );
+
+            const today =
+                getDateKey();
+
+            if (
+                progress.date ===
+                today
+            ) {
+                return progress;
+            }
+
+            const yesterday =
+                getDateKey(
+                    new Date(
+                        Date.now() -
+                        86400000
+                    )
+                );
+
+            const continuedStreak =
+                progress.date ===
+                    yesterday &&
+                progress.goalCompleted
+                    ? progress.streak
+                    : 0;
+
+            const next =
+                createDailyProgress(
+                    today,
+                    continuedStreak && progress.taskType === "packages"
+                        ? "words"
+                        : "packages"
+                );
+
+            next.streak =
+                continuedStreak;
+
+            next.bestStreak =
+                Math.max(
+                    progress.bestStreak,
+                    continuedStreak
+                );
+
+            return next;
+        }
+
+        function normalizeState(rawState) {
+            const source =
+                rawState &&
+                typeof rawState === "object"
+                    ? rawState
+                    : {};
+
+            const folders =
+                Array.isArray(source.folders)
+                    ? source.folders
+                        .filter(folder => folder && folder.id)
+                        .map(folder => ({
+                            id: String(folder.id),
+                            name:
+                                String(folder.name || "Bez nazwy"),
+                            color:
+                                /^#[0-9a-f]{6}$/i.test(folder.color)
+                                    ? folder.color
+                                    : DEFAULT_FOLDER_COLOR
+                        }))
+                    : [];
+
+            const folderIds =
+                new Set(folders.map(folder => folder.id));
+
+            const decks =
+                Array.isArray(source.decks)
+                    ? source.decks
+                        .filter(deck => deck && deck.id)
+                        .map(deck => ({
+                            ...deck,
+                            id: String(deck.id),
+                            name: String(deck.name || "Bez nazwy"),
+                            cards: Array.isArray(deck.cards)
+                                ? deck.cards
+                                : [],
+                            folderId:
+                                folderIds.has(
+                                    deck.folderId
+                                        ? String(deck.folderId)
+                                        : null
+                                )
+                                    ? String(deck.folderId)
+                                    : null
+                        }))
+                    : [];
+
+            return {
+                ...source,
+                folders,
+                decks,
+                daily:
+                    rollDailyProgress(
+                        source.daily
+                    ),
+                activeDeckId:
+                    decks.some(deck => deck.id === source.activeDeckId)
+                        ? source.activeDeckId
+                        : decks[0]?.id || null
+            };
+        }
+
         function loadState() {
             try {
                 const saved =
@@ -2066,10 +3442,9 @@ reliable | niezawodny"></textarea>
                         parsed &&
                         Array.isArray(
                             parsed.decks
-                        ) &&
-                        parsed.decks.length
+                        )
                     ) {
-                        return parsed;
+                        return normalizeState(parsed);
                     }
                 }
             } catch (error) {
@@ -2080,6 +3455,11 @@ reliable | niezawodny"></textarea>
                 decks: [
                     defaultDeck
                 ],
+
+                folders: [],
+
+                daily:
+                    createDailyProgress(),
 
                 activeDeckId:
                     defaultDeck.id
@@ -2109,13 +3489,6 @@ reliable | niezawodny"></textarea>
         }
 
         function playFinishSound() {
-            if (
-                document.body.dataset.theme !==
-                "pink"
-            ) {
-                return;
-            }
-
             if (!finishSound) {
                 return;
             }
@@ -2240,6 +3613,8 @@ reliable | niezawodny"></textarea>
                     "#0f1117"
                 );
             }
+
+            renderDailyMotivation?.();
         }
 
         function saveTheme(theme) {
@@ -2680,6 +4055,405 @@ reliable | niezawodny"></textarea>
             }
         }
 
+        function getDailyBadgeInfo(
+            streak
+        ) {
+            if (streak <= 0) {
+                return {
+                    level: 0,
+                    label: "Rozpal iskrę"
+                };
+            }
+
+            if (streak < 3) {
+                return {
+                    level: 1,
+                    label: "Pierwszy płomień"
+                };
+            }
+
+            if (streak < 7) {
+                return {
+                    level: 2,
+                    label: "Stabilny ogień"
+                };
+            }
+
+            if (streak < 14) {
+                return {
+                    level: 3,
+                    label: "Gorąca passa"
+                };
+            }
+
+            return {
+                level: 4,
+                label: "Nieugaszony ogień"
+            };
+        }
+
+        function formatDays(
+            value
+        ) {
+            return value === 1
+                ? "1 dzień"
+                : `${value} dni`;
+        }
+
+        function renderRewardGallery(
+            streak
+        ) {
+            const rewards = REWARD_CONFIG
+                .filter(reward => Number.isInteger(reward.day) && reward.day > 0 && typeof reward.cat === "string")
+                .slice()
+                .sort((a, b) => a.day - b.day);
+
+            const isPink =
+                document.body.dataset.theme ===
+                "pink";
+
+            const unlockedMilestones =
+                rewards.filter(
+                    reward =>
+                        streak >= reward.day
+                );
+
+            const currentMilestone =
+                unlockedMilestones[
+                    unlockedMilestones.length -
+                    1
+                ] || null;
+
+            const nextMilestone =
+                rewards.find(
+                    reward =>
+                        reward.day >
+                        streak
+                );
+
+            dailyRewardProgress.textContent =
+                nextMilestone
+                    ? `Następna: dzień ${nextMilestone.day}`
+                    : "Wszystkie obecne nagrody odblokowane";
+
+            document.getElementById("rewardGalleryTitle").textContent =
+                isPink ? "Galeria kotów" : "Galeria trofeów";
+
+            dailyRewardGallery.innerHTML =
+                "";
+
+            rewards.forEach(
+                reward => {
+                    const unlocked =
+                        streak >=
+                        reward.day;
+
+                    const card =
+                        document.createElement(
+                            "div"
+                        );
+
+                    card.className =
+                        "reward-card" +
+                        (
+                            unlocked
+                                ? " unlocked"
+                                : " locked"
+                        ) +
+                        (
+                            reward ===
+                                currentMilestone
+                                ? " current"
+                                : ""
+                        );
+
+                    if (unlocked) {
+                        const image = document.createElement("img");
+                        image.src = `assets/${isPink ? reward.cat : `trofeum${reward.day}.png`}`;
+                        image.alt = isPink
+                            ? `Kot za ${reward.day} dni passy`
+                            : `Trofeum za ${reward.day} dni passy`;
+                        image.addEventListener("error", () => {
+                            image.replaceWith(createRewardFallback(isPink ? "🐱" : "🏆"));
+                        }, { once: true });
+                        card.appendChild(image);
+                    } else {
+                        card.appendChild(createRewardFallback("🔒"));
+                    }
+
+                    const label =
+                        document.createElement(
+                            "span"
+                        );
+
+                    label.className =
+                        "reward-card-label";
+
+                    label.textContent =
+                        `Dzień ${reward.day}`;
+
+                    card.appendChild(label);
+
+                    dailyRewardGallery.appendChild(
+                        card
+                    );
+                }
+            );
+        }
+
+        function createRewardFallback(symbol) {
+            const fallback = document.createElement("span");
+            fallback.className = "reward-fallback";
+            fallback.textContent = symbol;
+            return fallback;
+        }
+
+        function renderDailyMotivation() {
+            const previousDate =
+                state.daily?.date;
+
+            state.daily =
+                rollDailyProgress(
+                    state.daily
+                );
+
+            if (
+                previousDate !==
+                state.daily.date
+            ) {
+                saveState();
+            }
+
+            const daily =
+                state.daily;
+
+            const completedPackages =
+                daily.completedDeckIds.length;
+
+            const learnedWords =
+                daily.learnedCardIds.length;
+
+            const wordTask = daily.taskType === "words";
+            const goal = wordTask ? DAILY_WORD_GOAL : DAILY_PACKAGE_GOAL;
+            const progress = wordTask ? learnedWords : completedPackages;
+
+            const badge =
+                getDailyBadgeInfo(
+                    daily.streak
+                );
+
+            renderRewardGallery(
+                daily.streak
+            );
+
+            dailyStreakBadge.dataset.level =
+                String(
+                    badge.level
+                );
+
+            dailyStreakNumber.textContent =
+                formatDays(
+                    daily.streak
+                );
+
+            dailyStreakLabel.textContent =
+                badge.label;
+
+            dailyTaskTitle.textContent =
+                wordTask
+                    ? `Naucz się ${DAILY_WORD_GOAL} słów`
+                    : `Ukończ ${DAILY_PACKAGE_GOAL} pakiety`;
+
+            dailyTaskMeta.textContent =
+                wordTask
+                    ? "Zaznaczaj nowe słowa jako „Znam”, aby podtrzymać passę."
+                    : "Każdy ukończony pakiet podtrzymuje Twój ogień.";
+
+            dailyProgressBar.style.width =
+                `${Math.min(
+                    100,
+                    progress /
+                    goal *
+                    100
+                )}%`;
+
+            dailyProgressText.textContent =
+                `${wordTask ? "Słowa" : "Pakiety"}: ${Math.min(progress, goal)} / ${goal}`;
+
+            dailyGoalStatus.textContent =
+                daily.goalCompleted
+                    ? "Cel wykonany! Ogień utrzymany 🔥"
+                    : progress
+                        ? `Jeszcze ${Math.max(
+                            0,
+                            goal -
+                            progress
+                        )} do celu`
+                        : wordTask ? "Ogień czeka na pierwsze słowo" : "Ogień czeka na pierwszy pakiet";
+
+            dailyNextTask.innerHTML =
+                wordTask
+                    ? `Jutro · <strong>Ukończ ${DAILY_PACKAGE_GOAL} pakiety</strong>`
+                    : `Jutro · <strong>Naucz się ${DAILY_WORD_GOAL} słów</strong> · bonus dziś: ${learnedWords} / ${DAILY_WORD_GOAL}`;
+
+            const missingPackages =
+                Math.max(
+                    0,
+                    DAILY_PACKAGE_GOAL -
+                    state.decks.length
+                );
+
+            dailyPackageNote.classList.toggle(
+                "warning",
+                !wordTask && missingPackages > 0
+            );
+
+            if (wordTask) {
+                dailyPackageNoteText.textContent =
+                    "Dzisiejszy cel liczy unikalne słowa zaznaczone jako „Znam”.";
+                dailyAddDeckButton.classList.add("hidden");
+            } else if (missingPackages > 0) {
+                dailyPackageNoteText.textContent =
+                    `Masz ${state.decks.length} ${state.decks.length === 1 ? "pakiet" : "pakiety"}. Cel wymaga 3 ukończonych pakietów, ale nic nie tworzymy automatycznie.`;
+
+                dailyAddDeckButton.classList.remove(
+                    "hidden"
+                );
+            } else if (daily.goalCompleted) {
+                dailyPackageNoteText.textContent =
+                    "Świetnie — masz już wystarczająco pakietów i dzisiejszy cel jest wykonany.";
+
+                dailyAddDeckButton.classList.add(
+                    "hidden"
+                );
+            } else {
+                dailyPackageNoteText.textContent =
+                    "Masz wystarczająco pakietów — wybierz dowolne 3 i ucz się w swoim tempie.";
+
+                dailyAddDeckButton.classList.add(
+                    "hidden"
+                );
+            }
+        }
+
+        function recordDailyPackageCompletion(
+            deck
+        ) {
+            if (!deck) {
+                return;
+            }
+
+            state.daily =
+                rollDailyProgress(
+                    state.daily
+                );
+
+            if (
+                !state.daily.completedDeckIds.includes(
+                    deck.id
+                )
+            ) {
+                state.daily.completedDeckIds.push(
+                    deck.id
+                );
+            }
+
+            if (
+                state.daily.taskType === "packages" &&
+                state.daily.completedDeckIds.length >=
+                    DAILY_PACKAGE_GOAL &&
+                !state.daily.goalCompleted
+            ) {
+                completeDailyGoal();
+            }
+
+            saveState();
+            renderDailyMotivation();
+        }
+
+        function recordDailyWord(
+            deck,
+            card
+        ) {
+            if (!deck || !card) {
+                return;
+            }
+
+            state.daily =
+                rollDailyProgress(
+                    state.daily
+                );
+
+            const cardKey =
+                `${deck.id}:${card.id}`;
+
+            if (
+                !state.daily.learnedCardIds.includes(
+                    cardKey
+                )
+            ) {
+                state.daily.learnedCardIds.push(
+                    cardKey
+                );
+
+                if (state.daily.taskType === "words" &&
+                    state.daily.learnedCardIds.length >= DAILY_WORD_GOAL &&
+                    !state.daily.goalCompleted) {
+                    completeDailyGoal();
+                }
+
+                saveState();
+                renderDailyMotivation();
+            }
+        }
+
+        function completeDailyGoal() {
+            state.daily.goalCompleted = true;
+            state.daily.streak = Math.max(1, state.daily.streak + 1);
+            state.daily.bestStreak = Math.max(state.daily.bestStreak, state.daily.streak);
+            dailyMotivation.classList.remove("celebrate");
+            requestAnimationFrame(() => dailyMotivation.classList.add("celebrate"));
+            playFinishSound();
+            showRewardUnlock(state.daily.streak);
+        }
+
+        function showRewardUnlock(day) {
+            const reward = REWARD_CONFIG.find(item => item.day === day);
+            if (!reward) return;
+
+            const isPink = document.body.dataset.theme === "pink";
+            rewardUnlockTitle.textContent = isPink ? `Kot za ${day}. dzień!` : `Trofeum za ${day}. dzień!`;
+            rewardUnlockText.textContent = `Passa: ${formatDays(day)}. Nagroda jest teraz dostępna w zakładce Nagrody.`;
+            rewardUnlockImage.replaceChildren();
+            const image = document.createElement("img");
+            image.src = `assets/${isPink ? reward.cat : `trofeum${day}.png`}`;
+            image.alt = isPink ? `Odblokowany kot za dzień ${day}` : `Odblokowane trofeum za dzień ${day}`;
+            image.addEventListener("error", () => image.replaceWith(createRewardFallback(isPink ? "🐱" : "🏆")), { once: true });
+            rewardUnlockImage.appendChild(image);
+            if (!rewardUnlockDialog.open) rewardUnlockDialog.showModal();
+        }
+
+        dailyAddDeckButton.addEventListener(
+            "click",
+            () => {
+                document
+                    .querySelector(
+                        '.tab[data-view="manage"]'
+                    )
+                    ?.click();
+
+                setTimeout(
+                    () =>
+                        document
+                            .getElementById(
+                                "newDeckBtn"
+                            )
+                            ?.click(),
+                    0
+                );
+            }
+        );
+
         function isDeckCompleted() {
             const deck =
                 getActiveDeck();
@@ -2726,6 +4500,10 @@ reliable | niezawodny"></textarea>
                 return;
             }
 
+            recordDailyPackageCompletion(
+                deck
+            );
+
             sessionCompleted =
                 true;
 
@@ -2770,8 +4548,6 @@ reliable | niezawodny"></textarea>
                 .remove(
                     "hidden"
                 );
-
-            playFinishSound();
 
             window.scrollTo({
                 top: 0,
@@ -2904,6 +4680,8 @@ reliable | niezawodny"></textarea>
         }
 
         function renderStudy() {
+            renderDailyMotivation();
+
             renderDeckSelect();
 
             const deck =
@@ -3176,6 +4954,11 @@ reliable | niezawodny"></textarea>
             ) {
                 knownCards.add(
                     card.id
+                );
+
+                recordDailyWord(
+                    getActiveDeck(),
+                    card
                 );
 
                 repeatCards.delete(
@@ -3506,6 +5289,11 @@ reliable | niezawodny"></textarea>
                                     "manage"
                                 );
 
+                            document
+                                .getElementById("rewardsView")
+                                .classList
+                                .toggle("hidden", view !== "rewards");
+
                             if (
                                 view ===
                                 "manage"
@@ -3517,6 +5305,8 @@ reliable | niezawodny"></textarea>
                                     ?.cancel();
 
                                 renderManager();
+                            } else {
+                                renderDailyMotivation();
                             }
                         }
                     );
@@ -3547,64 +5337,897 @@ reliable | niezawodny"></textarea>
             deckList.innerHTML =
                 "";
 
-            state.decks.forEach(
-                deck => {
-                    const item =
-                        document.createElement(
-                            "div"
-                        );
-
-                    item.className =
-                        "deck-item" +
-                        (
-                            deck.id ===
-                                editingDeckId
-                                ? " active"
-                                : ""
-                        );
-
-                    const title =
-                        document.createElement(
-                            "div"
-                        );
-
-                    title.className =
-                        "deck-item-title";
-
-                    title.textContent =
-                        deck.name;
-
-                    const count =
-                        document.createElement(
-                            "div"
-                        );
-
-                    count.className =
-                        "deck-item-count";
-
-                    count.textContent =
-                        `${deck.cards.length} fiszek`;
-
-                    item.append(
-                        title,
-                        count
-                    );
-
-                    item.addEventListener(
-                        "click",
-                        () => {
-                            editingDeckId =
-                                deck.id;
-
-                            renderManager();
-                        }
-                    );
-
+            state.folders.forEach(
+                folder => {
                     deckList.appendChild(
-                        item
+                        createFolderDropzone(folder)
                     );
                 }
             );
+
+            deckList.appendChild(
+                createUnfiledSection()
+            );
+        }
+
+        function createUnfiledSection() {
+            const section =
+                document.createElement(
+                    "div"
+                );
+
+            section.className =
+                "unfiled-section";
+
+            section.dataset.folderId =
+                "";
+
+            const decks =
+                state.decks.filter(
+                    deck =>
+                        !deck.folderId
+                );
+
+            const title =
+                document.createElement(
+                    "div"
+                );
+
+            title.className =
+                "unfiled-title";
+
+            title.textContent =
+                `Poza folderami · ${decks.length} pakietów`;
+
+            const items =
+                document.createElement(
+                    "div"
+                );
+
+            items.className =
+                "unfiled-items";
+
+            decks.forEach(
+                deck =>
+                    items.appendChild(
+                        createDeckItem(deck)
+                    )
+            );
+
+            const dropTarget =
+                document.createElement(
+                    "div"
+                );
+
+            dropTarget.className =
+                "unfiled-drop-target";
+
+            dropTarget.textContent =
+                decks.length
+                    ? "Upuść tutaj, aby wyjąć pakiet z folderu"
+                    : "Upuść tutaj pakiet poza folderami";
+
+            section.append(
+                title,
+                items,
+                dropTarget
+            );
+
+            section.addEventListener(
+                "dragover",
+                event => {
+                    event.preventDefault();
+                    event.dataTransfer.dropEffect =
+                        "move";
+                    section.classList.add(
+                        "drag-over"
+                    );
+                }
+            );
+
+            section.addEventListener(
+                "dragleave",
+                event => {
+                    if (
+                        !section.contains(
+                            event.relatedTarget
+                        )
+                    ) {
+                        section.classList.remove(
+                            "drag-over"
+                        );
+                    }
+                }
+            );
+
+            section.addEventListener(
+                "drop",
+                event => {
+                    event.preventDefault();
+
+                    const deckId =
+                        event.dataTransfer.getData(
+                            "text/plain"
+                        ) || draggedDeckId;
+
+                    section.classList.remove(
+                        "drag-over"
+                    );
+
+                    moveDeckToFolder(
+                        deckId,
+                        null
+                    );
+                }
+            );
+
+            return section;
+        }
+
+        function createDeckItem(deck) {
+            const item =
+                document.createElement(
+                    "div"
+                );
+
+            item.className =
+                "deck-item" +
+                (
+                    deck.id ===
+                        editingDeckId
+                        ? " active"
+                        : ""
+                );
+
+            item.draggable =
+                false;
+
+            item.dataset.deckId =
+                deck.id;
+
+            const title =
+                document.createElement(
+                    "div"
+                );
+
+            title.className =
+                "deck-item-title";
+
+            title.textContent =
+                deck.name;
+
+            const count =
+                document.createElement(
+                    "div"
+                );
+
+            count.className =
+                "deck-item-count";
+
+            count.textContent =
+                `${deck.cards.length} fiszek · przeciągnij do folderu`;
+
+            item.append(
+                title,
+                count
+            );
+
+            item.addEventListener(
+                "click",
+                event => {
+                    if (
+                        item.dataset.suppressClick ===
+                        "true"
+                    ) {
+                        delete item.dataset.suppressClick;
+                        return;
+                    }
+
+                    editingDeckId =
+                        deck.id;
+
+                    renderManager();
+                }
+            );
+
+            item.addEventListener(
+                "pointerdown",
+                event => {
+                    if (
+                        event.button !==
+                        0
+                    ) {
+                        return;
+                    }
+
+                    pointerDragState = {
+                        deckId:
+                            deck.id,
+                        item,
+                        pointerId:
+                            event.pointerId,
+                        startX:
+                            event.clientX,
+                        startY:
+                            event.clientY,
+                        active:
+                            false
+                    };
+
+                    item.setPointerCapture?.(
+                        event.pointerId
+                    );
+                }
+            );
+
+            item.addEventListener(
+                "pointermove",
+                event => {
+                    const drag =
+                        pointerDragState;
+
+                    if (
+                        !drag ||
+                        drag.pointerId !==
+                            event.pointerId
+                    ) {
+                        return;
+                    }
+
+                    const distance =
+                        Math.hypot(
+                            event.clientX -
+                                drag.startX,
+                            event.clientY -
+                                drag.startY
+                        );
+
+                    if (
+                        !drag.active &&
+                        distance < 8
+                    ) {
+                        return;
+                    }
+
+                    if (!drag.active) {
+                        drag.active =
+                            true;
+
+                        draggedDeckId =
+                            drag.deckId;
+
+                        drag.item.classList.add(
+                            "is-dragging"
+                        );
+                    }
+
+                    event.preventDefault();
+
+                    updatePointerDropTarget(
+                        event.clientX,
+                        event.clientY
+                    );
+                }
+            );
+
+            item.addEventListener(
+                "pointerup",
+                event => {
+                    const drag =
+                        pointerDragState;
+
+                    if (
+                        !drag ||
+                        drag.pointerId !==
+                            event.pointerId
+                    ) {
+                        return;
+                    }
+
+                    if (drag.active) {
+                        const target =
+                            document
+                                .elementFromPoint(
+                                    event.clientX,
+                                    event.clientY
+                                )
+                                ?.closest(
+                                    ".folder-dropzone, .unfiled-section"
+                                );
+
+                        item.dataset.suppressClick =
+                            "true";
+
+                        if (target) {
+                            moveDeckToFolder(
+                                drag.deckId,
+                                target.dataset.folderId ||
+                                    null
+                            );
+                        }
+                    }
+
+                    clearPointerDrag();
+                }
+            );
+
+            item.addEventListener(
+                "pointercancel",
+                () =>
+                    clearPointerDrag()
+            );
+
+            item.addEventListener(
+                "dragstart",
+                event => {
+                    draggedDeckId =
+                        deck.id;
+
+                    event.dataTransfer.effectAllowed =
+                        "move";
+
+                    event.dataTransfer.setData(
+                        "text/plain",
+                        deck.id
+                    );
+
+                    requestAnimationFrame(
+                        () =>
+                            item.classList.add(
+                                "is-dragging"
+                            )
+                    );
+                }
+            );
+
+            item.addEventListener(
+                "dragend",
+                () => {
+                    draggedDeckId =
+                        null;
+
+                    item.classList.remove(
+                        "is-dragging"
+                    );
+
+                    deckList
+                        .querySelectorAll(
+                            ".drag-over"
+                        )
+                        .forEach(
+                            target =>
+                                target.classList.remove(
+                                    "drag-over"
+                                )
+                        );
+                }
+            );
+
+            return item;
+        }
+
+        function updatePointerDropTarget(
+            x,
+            y
+        ) {
+            const target =
+                document
+                    .elementFromPoint(
+                        x,
+                        y
+                    )
+                    ?.closest(
+                        ".folder-dropzone, .unfiled-section"
+                    );
+
+            deckList
+                .querySelectorAll(
+                    ".drag-over"
+                )
+                .forEach(
+                    item => {
+                        if (
+                            item !==
+                            target
+                        ) {
+                            item.classList.remove(
+                                "drag-over"
+                            );
+                        }
+                    }
+                );
+
+            target?.classList.add(
+                "drag-over"
+            );
+        }
+
+        function clearPointerDrag() {
+            pointerDragState?.item.classList.remove(
+                "is-dragging"
+            );
+
+            deckList
+                .querySelectorAll(
+                    ".drag-over"
+                )
+                .forEach(
+                    item =>
+                        item.classList.remove(
+                            "drag-over"
+                        )
+                );
+
+            draggedDeckId =
+                null;
+
+            pointerDragState =
+                null;
+        }
+
+        function createFolderDropzone(folder) {
+            const folderElement =
+                document.createElement(
+                    "div"
+                );
+
+            const folderId =
+                folder?.id || null;
+
+            folderElement.className =
+                "folder-dropzone" +
+                (
+                    folderId
+                        ? ""
+                        : " unfiled"
+                );
+
+            folderElement.dataset.folderId =
+                folderId || "";
+
+            if (folder) {
+                folderElement.style.setProperty(
+                    "--folder-color",
+                    folder.color
+                );
+            }
+
+            const header =
+                document.createElement(
+                    "div"
+                );
+
+            header.className =
+                "folder-header";
+
+            const dot =
+                document.createElement(
+                    "span"
+                );
+
+            dot.className =
+                "folder-color-dot";
+
+            const title =
+                document.createElement(
+                    "span"
+                );
+
+            title.className =
+                "folder-title";
+
+            title.textContent =
+                folder?.name ||
+                "Bez folderu";
+
+            const folderDecks =
+                state.decks.filter(
+                    deck =>
+                        (deck.folderId || null) ===
+                        folderId
+                );
+
+            const count =
+                document.createElement(
+                    "span"
+                );
+
+            count.className =
+                "folder-count";
+
+            count.textContent =
+                `${folderDecks.length} pakietów`;
+
+            header.append(
+                dot,
+                title,
+                count
+            );
+
+            if (folder) {
+                const actions =
+                    document.createElement(
+                        "div"
+                    );
+
+                actions.className =
+                    "folder-actions";
+
+                const editButton =
+                    document.createElement(
+                        "button"
+                    );
+
+                editButton.type =
+                    "button";
+
+                editButton.className =
+                    "folder-action";
+
+                editButton.title =
+                    "Zmień nazwę lub kolor folderu";
+
+                editButton.setAttribute(
+                    "aria-label",
+                    editButton.title
+                );
+
+                editButton.textContent =
+                    "✎";
+
+                editButton.addEventListener(
+                    "click",
+                    event => {
+                        event.stopPropagation();
+                        openFolderDialog(folder.id);
+                    }
+                );
+
+                const deleteButton =
+                    document.createElement(
+                        "button"
+                    );
+
+                deleteButton.type =
+                    "button";
+
+                deleteButton.className =
+                    "folder-action danger";
+
+                deleteButton.title =
+                    "Usuń folder";
+
+                deleteButton.setAttribute(
+                    "aria-label",
+                    deleteButton.title
+                );
+
+                deleteButton.textContent =
+                    "×";
+
+                deleteButton.addEventListener(
+                    "click",
+                    event => {
+                        event.stopPropagation();
+                        deleteFolder(folder.id);
+                    }
+                );
+
+                actions.append(
+                    editButton,
+                    deleteButton
+                );
+
+                header.appendChild(
+                    actions
+                );
+            }
+
+            const items =
+                document.createElement(
+                    "div"
+                );
+
+            items.className =
+                "folder-items";
+
+            if (!folderDecks.length) {
+                const empty =
+                    document.createElement(
+                        "div"
+                    );
+
+                empty.className =
+                    "folder-empty";
+
+                empty.textContent =
+                    folder
+                        ? "Upuść tutaj pakiet"
+                        : "Przeciągnij tu pakiety, które nie mają folderu";
+
+                items.appendChild(
+                    empty
+                );
+            } else {
+                folderDecks.forEach(
+                    deck =>
+                        items.appendChild(
+                            createDeckItem(deck)
+                        )
+                );
+            }
+
+            folderElement.append(
+                header,
+                items
+            );
+
+            folderElement.addEventListener(
+                "dragover",
+                event => {
+                    event.preventDefault();
+                    event.dataTransfer.dropEffect =
+                        "move";
+                    folderElement.classList.add(
+                        "drag-over"
+                    );
+                }
+            );
+
+            folderElement.addEventListener(
+                "dragleave",
+                event => {
+                    if (
+                        !folderElement.contains(
+                            event.relatedTarget
+                        )
+                    ) {
+                        folderElement.classList.remove(
+                            "drag-over"
+                        );
+                    }
+                }
+            );
+
+            folderElement.addEventListener(
+                "drop",
+                event => {
+                    event.preventDefault();
+
+                    const deckId =
+                        event.dataTransfer.getData(
+                            "text/plain"
+                        ) || draggedDeckId;
+
+                    folderElement.classList.remove(
+                        "drag-over"
+                    );
+
+                    moveDeckToFolder(
+                        deckId,
+                        folderId
+                    );
+                }
+            );
+
+            return folderElement;
+        }
+
+        function normalizeFolderColor(value) {
+            const raw =
+                String(value || "")
+                    .trim()
+                    .replace(/^#?/, "#");
+
+            return /^#[0-9a-f]{6}$/i.test(
+                raw
+            )
+                ? raw.toLowerCase()
+                : null;
+        }
+
+        function updateFolderColorControls(
+            color
+        ) {
+            const normalized =
+                normalizeFolderColor(
+                    color
+                ) || DEFAULT_FOLDER_COLOR;
+
+            folderColorInput.value =
+                normalized;
+
+            folderHexInput.value =
+                normalized.toUpperCase();
+
+            folderColorValue.textContent =
+                `Wybrany kolor: ${normalized.toUpperCase()}`;
+
+            folderPalette
+                .querySelectorAll(
+                    ".folder-color-swatch"
+                )
+                .forEach(
+                    swatch =>
+                        swatch.classList.toggle(
+                            "selected",
+                            swatch.dataset.color
+                                .toLowerCase() ===
+                                normalized
+                        )
+                );
+        }
+
+        folderPalette
+            .querySelectorAll(
+                ".folder-color-swatch"
+            )
+            .forEach(
+                swatch =>
+                    swatch.addEventListener(
+                        "click",
+                        () =>
+                            updateFolderColorControls(
+                                swatch.dataset.color
+                            )
+                    )
+            );
+
+        folderColorInput.addEventListener(
+            "input",
+            () =>
+                updateFolderColorControls(
+                    folderColorInput.value
+                )
+        );
+
+        folderHexInput.addEventListener(
+            "input",
+            () => {
+                const normalized =
+                    normalizeFolderColor(
+                        folderHexInput.value
+                    );
+
+                if (!normalized) {
+                    folderColorValue.textContent =
+                        "Wpisz poprawny kod HEX, np. #7C6CFF";
+                    return;
+                }
+
+                updateFolderColorControls(
+                    normalized
+                );
+            }
+        );
+
+        folderHexInput.addEventListener(
+            "blur",
+            () =>
+                updateFolderColorControls(
+                    normalizeFolderColor(
+                        folderHexInput.value
+                    ) || folderColorInput.value
+                )
+        );
+
+        function openFolderDialog(folderId = null) {
+            editingFolderId =
+                folderId;
+
+            const folder =
+                state.folders.find(
+                    item =>
+                        item.id ===
+                        folderId
+                );
+
+            folderDialogTitle.textContent =
+                folder
+                    ? "Edytuj folder"
+                    : "Nowy folder";
+
+            advancedColorOptions.open =
+                false;
+
+            folderNameInput.value =
+                folder?.name ||
+                "";
+
+            updateFolderColorControls(
+                folder?.color ||
+                DEFAULT_FOLDER_COLOR
+            );
+
+            folderDialog.showModal();
+
+            setTimeout(
+                () =>
+                    folderNameInput.focus(),
+                50
+            );
+        }
+
+        function moveDeckToFolder(deckId, folderId) {
+            const deck =
+                state.decks.find(
+                    item =>
+                        item.id ===
+                        deckId
+                );
+
+            if (!deck) {
+                return;
+            }
+
+            const validFolder =
+                !folderId ||
+                state.folders.some(
+                    folder =>
+                        folder.id ===
+                        folderId
+                );
+
+            if (!validFolder) {
+                return;
+            }
+
+            if (
+                (deck.folderId || null) ===
+                (folderId || null)
+            ) {
+                return;
+            }
+
+            deck.folderId =
+                folderId ||
+                null;
+
+            saveState();
+            renderManager();
+        }
+
+        function deleteFolder(folderId) {
+            const folder =
+                state.folders.find(
+                    item =>
+                        item.id ===
+                        folderId
+                );
+
+            if (!folder) {
+                return;
+            }
+
+            if (
+                !confirm(
+                    `Usunąć folder "${folder.name}"? Pakiety zostaną zachowane i trafią do "Bez folderu".`
+                )
+            ) {
+                return;
+            }
+
+            state.decks.forEach(
+                deck => {
+                    if (
+                        deck.folderId ===
+                        folderId
+                    ) {
+                        deck.folderId =
+                            null;
+                    }
+                }
+            );
+
+            state.folders =
+                state.folders.filter(
+                    item =>
+                        item.id !==
+                        folderId
+                );
+
+            saveState();
+            renderManager();
         }
 
         function renderDeckEditor() {
@@ -3794,6 +6417,85 @@ reliable | niezawodny"></textarea>
                 }
             );
         }
+
+        newFolderBtn.addEventListener(
+            "click",
+            () =>
+                openFolderDialog()
+        );
+
+        cancelFolderBtn.addEventListener(
+            "click",
+            () =>
+                folderDialog.close()
+        );
+
+        saveFolderBtn.addEventListener(
+            "click",
+            () => {
+                const name =
+                    folderNameInput.value.trim();
+
+                if (!name) {
+                    alert(
+                        "Podaj nazwę folderu."
+                    );
+
+                    folderNameInput.focus();
+                    return;
+                }
+
+                const color =
+                    normalizeFolderColor(
+                        folderColorInput.value
+                    ) || DEFAULT_FOLDER_COLOR;
+
+                let folder =
+                    state.folders.find(
+                        item =>
+                            item.id ===
+                            editingFolderId
+                    );
+
+                if (folder) {
+                    folder.name =
+                        name;
+
+                    folder.color =
+                        color;
+                } else {
+                    folder = {
+                        id:
+                            generateId(),
+
+                        name,
+
+                        color
+                    };
+
+                    state.folders.push(
+                        folder
+                    );
+                }
+
+                saveState();
+                folderDialog.close();
+                renderManager();
+            }
+        );
+
+        folderNameInput.addEventListener(
+            "keydown",
+            event => {
+                if (
+                    event.key ===
+                    "Enter"
+                ) {
+                    event.preventDefault();
+                    saveFolderBtn.click();
+                }
+            }
+        );
 
         document
             .getElementById(
@@ -4376,7 +7078,9 @@ reliable | niezawodny"></textarea>
                     stopFinishSound();
 
                     state =
-                        imported;
+                        normalizeState(
+                            imported
+                        );
 
                     if (
                         !state.activeDeckId ||
